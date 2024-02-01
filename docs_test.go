@@ -4,13 +4,17 @@ import (
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 	"database/sql"
-	//"fmt"
+	"strings"
+	"os"
+	"fmt"
 	//"time"
 	"github.com/go-sql-driver/mysql"
 )
 
 
 var _ = Describe("Docs", func() {
+	AWS_S3_ACCESS_KEY := os.Getenv("AWS_S3_ACCESS_KEY")
+	AWS_S3_SECRET_KEY := os.Getenv("AWS_S3_SECRET_KEY")
 
 	When("instance is running in staging", Ordered, func() {
 		var db *sql.DB
@@ -29,7 +33,7 @@ var _ = Describe("Docs", func() {
 		})
 
 		AfterAll(func() {
-			_, err := db.Exec(`DROP DATABASE IF EXISTS DocsQA2`)
+			_, err := db.Exec(`DROP DATABASE IF EXISTS DocsQA`)
 			Expect(err).ToNot(HaveOccurred())
 		})
 
@@ -53,7 +57,15 @@ var _ = Describe("Docs", func() {
 
 		It("should be able to run SQL commands", func() {
 			By("creating and populating a table")
-			_, err := db.Exec(`CREATE TABLE DocsQA.user_behavior_inferred AS SELECT * FROM FILES ( "path" = "s3://starrocks-examples/user_behavior_ten_million_rows.parquet", "format" = "parquet", "aws.s3.region" = "us-east-1", "aws.s3.access_key" = "AAAAAAAAAAAAAAAAAAAA", "aws.s3.secret_key" = "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");`)
+			b, err := os.ReadFile("SQL/files_table_fxn.sql")
+			if err != nil {
+				fmt.Print(err)
+			}
+			SQL := string(b)
+			re := strings.NewReplacer( "AAAAAAAAAAAAAAAAAAAA", AWS_S3_ACCESS_KEY, "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", AWS_S3_SECRET_KEY)
+
+			SQLWithKey := re.Replace(SQL)
+			_, err = db.Exec(SQLWithKey)
 			Expect(err).ToNot(HaveOccurred())
 		})
 	})
