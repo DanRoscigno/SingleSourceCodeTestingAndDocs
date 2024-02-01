@@ -15,7 +15,7 @@ The plan is to have dedicated tests for code that is included in the docs so tha
 - a breaking change breaks a tutorial
 
 ```sql reference title="Create table from S3 using FILES() table function"
-https://github.com/DanRoscigno/docs/blob/65f134975826b954a8646693b7ce2294009da90e/SQL/files_table_fxn.sql#L1-L11
+https://github.com/DanRoscigno/docs/blob/6d6fcf905162adf80bd094cb9dd133a5c557bdd3/SQL/files_table_fxn.sql#L1-L11
 ```
 
 ```sql
