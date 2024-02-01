@@ -53,7 +53,7 @@ var _ = Describe("Docs", func() {
 
 		It("should be able to run SQL commands", func() {
 			By("creating and populating a table")
-			_, err := db.Exec(`CREATE TABLE DocsQA.user_behavior_inferred AS SELECT * FROM FILES ( "path" = "s3://starrocks-examples/user_behavior_ten_million_rows.parquet", "format" = "parquet", "aws.s3.region" = "us-east-1", "aws.s3.access_key" = "AKIAZWYRUJIJ3S43RPOA", "aws.s3.secret_key" = "JL+uV5hb6zm5p8m4yWy9iTD5qIn8YGbtv0qYr9qJ");`)
+			_, err := db.Exec(`CREATE TABLE DocsQA.user_behavior_inferred AS SELECT * FROM FILES ( "path" = "s3://starrocks-examples/user_behavior_ten_million_rows.parquet", "format" = "parquet", "aws.s3.region" = "us-east-1", "aws.s3.access_key" = "AAAAAAAAAAAAAAAAAAAA", "aws.s3.secret_key" = "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");`)
 			Expect(err).ToNot(HaveOccurred())
 		})
 	})
