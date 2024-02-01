@@ -11,14 +11,16 @@ import (
 
 
 var _ = Describe("Docs", func() {
+
 	When("instance is running in staging", Ordered, func() {
 		var db *sql.DB
+
 		cfg := mysql.Config{
 			User:   "root",
 			Passwd: "",
 			Net:    "tcp",
 			Addr:   "127.0.0.1:9030",
-			DBName: "DocsQA",
+			AllowNativePasswords: true,
 		}
 
 		BeforeEach(func() {
