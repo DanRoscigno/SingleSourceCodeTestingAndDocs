@@ -121,7 +121,7 @@ const config = {
       },
       // github codeblock theme configuration
       codeblock: {
-        showGithubLink: true,
+        showGithubLink: false,
         githubLinkLabel: 'View on GitHub',
         showRunmeLink: false,
         runmeLinkLabel: 'Checkout via Runme'

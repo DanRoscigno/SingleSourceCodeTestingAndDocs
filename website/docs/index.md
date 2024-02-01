@@ -8,7 +8,7 @@ This first block is a section of lines from a configuration file used in an inte
 test.  The URL used is to a particular commit for two reasons:
 - Line numbers can change, referring to a specific commit guarantees that the line numbers
 will stay correct.
-- At some point we may have versioned docs; this allows us to link to the docs at the appropriate point in time.
+- As we have versioned docs; this supports linking to the docs at the appropriate point in history.
 
 The plan is to have dedicated tests for code that is included in the docs so that we know before the community when:
 - a change happens to a dataset that is used in the docs
