@@ -6,7 +6,7 @@ import (
 	"database/sql"
 	"strings"
 	"os"
-	//"fmt"
+	"fmt"
 	//"time"
 	"github.com/go-sql-driver/mysql"
 )
@@ -57,18 +57,15 @@ var _ = Describe("Docs", func() {
 
 		It("should be able to run SQL commands", func() {
 			By("creating and populating a table")
-			SQL := `
-CREATE TABLE DocsQA.user_behavior_inferred AS
-SELECT * FROM FILES (
-	"path" = "s3://starrocks-examples/user_behavior_ten_million_rows.parquet",
-	"format" = "parquet",
-	"aws.s3.region" = "us-east-1",
-	"aws.s3.access_key" = "AAAAAAAAAAAAAAAAAAAA",
-	"aws.s3.secret_key" = "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
-`
+			b, err := os.ReadFile("SQL/files_table_fxn.sql")
+			if err != nil {
+				fmt.Print(err)
+			}
+			SQL := string(b)
 			re := strings.NewReplacer( "AAAAAAAAAAAAAAAAAAAA", AWS_S3_ACCESS_KEY, "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", AWS_S3_SECRET_KEY)
+
 			SQLWithKey := re.Replace(SQL)
-			_, err := db.Exec(SQLWithKey)
+			_, err = db.Exec(SQLWithKey)
 			Expect(err).ToNot(HaveOccurred())
 		})
 	})
