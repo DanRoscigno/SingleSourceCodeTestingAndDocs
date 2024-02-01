@@ -32,3 +32,21 @@ SUCCESS! -- 0 Passed | 0 Failed | 0 Pending | 0 Skipped
 PASS
 ok  	github.com/danroscigno/docs	0.193s
 ```
+
+## StarRocks
+
+To test against the database it needs to be running. For now I will run the `allin1` Docker container and expose port 9030:
+
+```bash
+docker run -p 9030:9030 -p 8030:8030 -p 8040:8040 -itd \
+--name quickstart starrocks/allin1-ubuntu
+```
+
+## MySQL module
+
+We will use the MySQL golang module(s) to connect and run queries
+
+```bash
+go get github.com/go-sql-driver/mysql
+```
+
