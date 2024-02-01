@@ -34,6 +34,10 @@ const config = {
     locales: ['en'],
   },
 
+  // theme-github-codeblock allows including code snippets using github URLS
+  // https://opensource.saucelabs.com/docusaurus-theme-github-codeblock/
+  themes: ['docusaurus-theme-github-codeblock'],
+
   presets: [
     [
       'classic',
@@ -114,6 +118,13 @@ const config = {
       prism: {
         theme: prismThemes.github,
         darkTheme: prismThemes.dracula,
+      },
+      // github codeblock theme configuration
+      codeblock: {
+        showGithubLink: true,
+        githubLinkLabel: 'View on GitHub',
+        showRunmeLink: false,
+        runmeLinkLabel: 'Checkout via Runme'
       },
     }),
 };
