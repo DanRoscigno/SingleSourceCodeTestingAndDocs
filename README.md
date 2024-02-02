@@ -1,12 +1,12 @@
 # Single sourcing documentation code snippets from end to end tests
 
-## The old way
+## Two lifecycles for technical documentation
 
-#### New feature
+#### Documenting a feature
 
 <table>
 <tr>
-<td> Old lifecycle </td> <td> Proposed lifecycle </td>
+<td> Production failure driven lifecycle </td> <td> CI test driven lifecycle </td>
 </tr>
 <tr>
 <td>
@@ -14,23 +14,24 @@
 ```mermaid
 flowchart TD
 
-C[/Write Docs/]--> 
+C[Write Docs]--> 
 E[Test docs by hand] -- Update the docs -->C
 E -->J
-J(Publish) -->
+J[/Publish Docs/] -->
 M[/Breaking change/] -->
 P[/Receive Complaint/] 
 --> E
 ```
 
 </td>
-<td><br/><br/>
+<td><br/>
 
 ```mermaid
 flowchart TD
 
-C[/Write CI Test & Docs/]--> 
-J[Publish] -->
+C[/Publish CI Test/]--> 
+E[Include Test in Docs]--> 
+J[/Publish Docs/] -->
 M[/Breaking change/] -->
 P[/CI Fails/] -- Update the tests -->C
 C
