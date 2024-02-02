@@ -27,7 +27,7 @@ var _ = Describe("Docs", func() {
 			AllowNativePasswords: true,
 		}
 
-		BeforeEach(func() {
+		BeforeAll(func() {
 			db, _ = sql.Open("mysql", cfg.FormatDSN())
 			db.SetMaxOpenConns(1)
 		})
