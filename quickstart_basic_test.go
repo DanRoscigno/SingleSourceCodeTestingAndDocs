@@ -3,8 +3,8 @@ package docs_test_test
 import (
 	"database/sql"
 	//"log"
-	//"fmt"
-//	"os"
+	"fmt"
+  	"os"
 	"os/exec"
 	//"strings"
 
@@ -59,6 +59,29 @@ var _ = Describe("QuickstartBasic", func() {
 		It("should be able to run SQL commands", func() {
 			By("creating a database")
 			_, err := db.Exec(`CREATE DATABASE IF NOT EXISTS quickstart`)
+			Expect(err).ToNot(HaveOccurred())
+		})
+
+		It("should be able to run SQL commands", func() {
+			By("choosing a database")
+			_, err := db.Exec(`USE quickstart`)
+			Expect(err).ToNot(HaveOccurred())
+		})
+
+		It("should be able to run SQL commands", func() {
+			By("setting the number of replicas")
+			_, err := db.Exec(`ADMIN SET FRONTEND CONFIG ('default_replication_num' = "1");`)
+			Expect(err).ToNot(HaveOccurred())
+		})
+
+		It("should be able to run SQL commands", func() {
+			By("creating and populating a table")
+			b, err := os.ReadFile("SQL/NYPD_table.sql")
+			if err != nil {
+				fmt.Print(err)
+			}
+			SQL := string(b)
+			_, err = db.Exec(SQL)
 			Expect(err).ToNot(HaveOccurred())
 		})
 
