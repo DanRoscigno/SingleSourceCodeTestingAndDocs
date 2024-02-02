@@ -1,5 +1,46 @@
 # Single sourcing documentation code snippets from end to end tests
 
+## Two lifecycles for technical documentation
+
+#### Documenting a feature
+
+<table>
+<tr>
+<td> Production failure driven lifecycle </td> <td> CI test driven lifecycle </td>
+</tr>
+<tr>
+<td>
+
+```mermaid
+flowchart TD
+
+C[Write Docs]--> 
+E[Test docs by hand] -- Update the docs -->C
+E -->J
+J[/Publish Docs/] -->
+M[/Breaking change/] -->
+P[/Receive Complaint/] 
+--> E
+```
+
+</td>
+<td><br/>
+
+```mermaid
+flowchart TD
+
+C[/Publish CI Test/]--> 
+E[Include Test in Docs]--> 
+J[/Publish Docs/] -->
+M[/Breaking change/] -->
+P[/CI Fails/] -- Update the tests -->C
+C
+```
+
+</td>
+</tr>
+</table>
+
 ## Overview/Rant
 
 A year or two ago I saw a GitHub issue related to a bug in some documentation
