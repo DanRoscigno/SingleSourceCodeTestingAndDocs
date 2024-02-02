@@ -1,5 +1,34 @@
 # Single sourcing documentation code snippets from end to end tests
 
+## The old way
+
+```mermaid
+flowchart LR
+
+A[New Feature] --> 
+C(Write a guide)--> 
+E{Test} --> 
+G{edit} -->
+J(Publish) -->
+M(Forget) --> 
+P(Receive Complaint) 
+--> E
+```
+
+## Proposed flow
+
+```mermaid
+flowchart LR
+
+A[New Feature] --> 
+C(Write a Test Plan)--> 
+E{Deploy Test to CI} --> 
+G{include test in docs} -->
+J(Publish) -->
+M(Feature gets updated) -->
+P(CI Fails) --> R(Update the test plan) -->G
+```
+
 ## Overview/Rant
 
 A year or two ago I saw a GitHub issue related to a bug in some documentation
