@@ -2,32 +2,43 @@
 
 ## The old way
 
-```mermaid
-flowchart LR
+#### New feature
 
-A[New Feature] --> 
-C(Write a guide)--> 
-E{Test} --> 
-G{edit} -->
+<table>
+<tr>
+<td> Old lifecycle </td> <td> Proposed lifecycle </td>
+</tr>
+<tr>
+<td>
+
+```mermaid
+flowchart TD
+
+C[/Write Docs/]--> 
+E[Test docs by hand] -- Update the docs -->C
+E -->J
 J(Publish) -->
-M(Forget) --> 
-P(Receive Complaint) 
+M[/Breaking change/] -->
+P[/Receive Complaint/] 
 --> E
 ```
 
-## Proposed flow
+</td>
+<td><br/><br/>
 
 ```mermaid
-flowchart LR
+flowchart TD
 
-A[New Feature] --> 
-C(Write a Test Plan)--> 
-E{Deploy Test to CI} --> 
-G{include test in docs} -->
-J(Publish) -->
-M(Feature gets updated) -->
-P(CI Fails) --> R(Update the test plan) -->G
+C[/Write CI Test & Docs/]--> 
+J[Publish] -->
+M[/Breaking change/] -->
+P[/CI Fails/] -- Update the tests -->C
+C
 ```
+
+</td>
+</tr>
+</table>
 
 ## Overview/Rant
 
