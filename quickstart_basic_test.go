@@ -75,8 +75,19 @@ var _ = Describe("QuickstartBasic", func() {
 		})
 
 		It("should be able to run SQL commands", func() {
-			By("creating and populating a table")
+			By("creating the crash data table")
 			b, err := os.ReadFile("SQL/NYPD_table.sql")
+			if err != nil {
+				fmt.Print(err)
+			}
+			SQL := string(b)
+			_, err = db.Exec(SQL)
+			Expect(err).ToNot(HaveOccurred())
+		})
+
+		It("should be able to run SQL commands", func() {
+			By("creating the weather data table")
+			b, err := os.ReadFile("SQL/Weather_table.sql")
 			if err != nil {
 				fmt.Print(err)
 			}
