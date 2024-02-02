@@ -33,7 +33,10 @@ var _ = Describe("Docs", func() {
 		})
 
 		AfterAll(func() {
-			_, err := db.Exec(`DROP DATABASE IF EXISTS DocsQA`)
+			var err error
+			_, err = db.Exec(`DROP TABLE IF EXISTS DocsQA.user_behavior_inferred`)
+			Expect(err).ToNot(HaveOccurred())
+			_, err = db.Exec(`DROP DATABASE IF EXISTS DocsQA`)
 			Expect(err).ToNot(HaveOccurred())
 		})
 

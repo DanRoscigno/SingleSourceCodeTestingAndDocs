@@ -125,3 +125,11 @@ Code snippets are imported from the tests using [`docusaurus-theme-github-codebl
 1. Install Golang, Ginkgo, and Gomega
 1. `docker compose up --detach --wait --wait-timeout 60`
 1. `ginkgo -vv`
+
+## Add a new test
+
+To test the basic [quickstart](https://docs.starrocks.io/docs/quick_start/shared-nothing/)
+
+```bash
+ginkgo generate quickstart_basic
+```
