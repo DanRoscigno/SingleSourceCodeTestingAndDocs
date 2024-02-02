@@ -25,10 +25,15 @@ jobs:
         with:
           compose-file: "./docker-compose.yml"
 
-      - name: Set up Go
-        uses: actions/setup-go@v3
+      - name: Set up Golang
+        uses: actions/setup-go@v5
         with:
-          go-version: 1.21
+          go-version-file: 'go.mod'
+
+      - name: Install ginkgo
+        run: |
+          version=$(cat go.mod| grep "ginkgo/v2" | awk '{print $2}')
+          go install -v github.com/onsi/ginkgo/v2/ginkgo@$version
 
       - name: Build
         run: go build -v ./...
