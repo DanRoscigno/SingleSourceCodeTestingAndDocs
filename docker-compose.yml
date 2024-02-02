@@ -14,7 +14,7 @@ services:
       - 9020:9020
       - 9030:9030
     healthcheck:
-      test: 'mysql -u root -h fe -P 9030 -e "show frontends\G" |grep "Alive: true"'
+      test: 'mysql -u root -h localhost -P 9030 -e "show frontends\G" |grep "Alive: true"'
       interval: 10s
       timeout: 5s
       retries: 3
@@ -26,7 +26,7 @@ services:
       - /bin/bash
       - -c
       - |
-        sleep 45s; mysql --connect-timeout 2 -h fe -P 9030 -u root -e "alter system add backend \"be:9050\";"
+        sleep 45s; mysql --connect-timeout 2 -h localhost -P 9030 -u root -e "alter system add backend \"localhost:9050\";"
         /opt/starrocks/be/bin/start_be.sh
     hostname: be
     container_name: be
@@ -36,7 +36,7 @@ services:
     ports:
       - 8040:8040
     healthcheck:
-      test: 'mysql -u root -h fe -P 9030 -e "show backends\G" |grep "Alive: true"'
+      test: 'mysql -u root -h localhost -P 9030 -e "show backends\G" |grep "Alive: true"'
       interval: 10s
       timeout: 5s
       retries: 3
