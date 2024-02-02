@@ -18,13 +18,6 @@ jobs:
       # - the Ginkgo/Gomega test system
       - uses: actions/checkout@v3
 
-      # This compose action will deploy StarRocks
-      # in Docker using the compose file in this repo
-      - name: Start StarRocks
-        uses: isbang/compose-action@v1.4.1
-        with:
-          compose-file: "./docker-compose.yml"
-
       - name: Set up Golang
         uses: actions/setup-go@v5
         with:
@@ -37,6 +30,14 @@ jobs:
 
       - name: Build
         run: go build -v ./...
+
+      # This compose step will deploy StarRocks
+      # in Docker using the compose file in this repo
+      # docker compose will return when both services
+      # are healthy. The max time docker compose will
+      # wait is 60 seconds.
+      - name: Start StarRocks
+        run: docker compose up --detach --wait --wait-timeout 60
 
       - name: Test
         run: ginkgo -vv
