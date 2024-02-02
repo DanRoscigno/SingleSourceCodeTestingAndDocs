@@ -1,52 +1,86 @@
-# docs
+# Single sourcing documentation code snippets from end to end tests
 
-## Init golang
+## Overview/Rant
 
-> note:
->
-> ginkgo and gomega are installed, and my PATH includes `~/go/bin`
+A year or two ago I saw a GitHub issue related to a bug in some documentation
+that I wrote. Later in the same week I saw another issue about a different page
+in the docs. Both of these issues were related to key features that the 
+community and customers were using in production.
 
+After retesting the steps in the docs and confirming that the issues were
+accurate I looked through the release notes and found the related breaking
+changes.
+
+Waiting for the community and customers to find the bugs in the docs or bugs in
+the code is a common problem, and it is embarrassing.
+
+The best way to know when software changes is to run tests against every code
+change. This is common for code changes, but somehow the code changes and sample
+data used in the tests don't make their way into the documentation.
+
+## The fix
+
+- Treat the docs as code.
+- As end to end docs (tutorials, quick starts, how to guides) are designed they
+should be written as test plans.
+- Automate the test plan.
+- Write the doc, but instead of copy/pasting the code snippets (SQL in my case)
+into the docs, import the snippets directly from the automated test.
+- Run the test suite on a regular basis.
+- As tests fail get the code fixed if the failure indicates a bug, or update the
+test to include the new behavior of the system. The update to the test should cause
+an update to the documentation as the doc system is pulling the code snippets
+from the tests.
+
+## Example
+
+A recent feature of the project I am working on queries data in files stored
+in object storage (for example, Amazon S3) figures out the schema of the data, then
+creates and populates a table in a database.
+
+The SQL that causes this magic to happen looks like this:
+
+```sql
+-- Create table from S3 using FILES() table function
+CREATE TABLE DocsQA.user_behavior_inferred
+AS SELECT * FROM FILES (
+	"path" = "s3://starrocks-examples/user_behavior_ten_million_rows.parquet",
+	"format" = "parquet",
+	"aws.s3.region" = "us-east-1",
+	-- highlight-start
+	"aws.s3.access_key" = "AAAAAAAAAAAAAAAAAAAA",
+	"aws.s3.secret_key" = "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+	-- highlight-end
+);
 ```
-go mod init github.com/danroscigno/docs
-ginkgo bootstrap
-ginkgo generate
-go get github.com/onsi/ginkgo/v2
-go get -t github.com/danroscigno/docs
+
+Yesterday I would have copied the above out of the SQL client I used to run
+the query and pasted it into a Markdown file. But today I would instead use
+this syntax to grab the above from the test specification like so:
+
+<pre>
+```sql reference title="Create table from S3 using FILES() table function"
+https://github.com/DanRoscigno/docs/blob/6d6fcf905162adf80bd094cb9dd133a5c557bdd3/SQL/files_table_fxn.sql#L1-L11
 ```
+</pre>
 
-I needed a non-test go file, so I added a dummy `docs.go` that justs returns the text Hello World.
+In the docs this looks like:
 
-At this point I have not used the `gomega` import, so it is commented out.
+![code snippet rendered](./img/testSQL.png)
 
-Running `go test` returns the following, and it is correct. I have no specs defined, so none failed and we passed:
+## Components
 
-```go
-Running Suite: Docs Suite - /Users/droscign/GitHub/docs
-=======================================================
-Random Seed: 1706751017
+The documentation in this proof of concept repository is generated with 
+[Docusaurus version 3](https://docusaurus.io/).
 
-Will run 0 of 0 specs
+The sample tests are run against the StarRocks database and the testing system
+is built with [Golang, Ginkgo, and Gomega](https://onsi.github.io/ginkgo/).
 
-Ran 0 of 0 Specs in 0.000 seconds
-SUCCESS! -- 0 Passed | 0 Failed | 0 Pending | 0 Skipped
-PASS
-ok  	github.com/danroscigno/docs	0.193s
-```
+Code snippets are imported from the tests using [`docusaurus-theme-github-codeblock`](https://github.com/christian-bromann/docusaurus-theme-github-codeblock/blob/main/README.md)
 
-## StarRocks
+## Running the system
 
-To test against the database it needs to be running. For now I will run the `allin1` Docker container and expose port 9030:
-
-```bash
-docker run -p 9030:9030 -p 8030:8030 -p 8040:8040 -itd \
---name quickstart starrocks/allin1-ubuntu
-```
-
-## MySQL module
-
-We will use the MySQL golang module(s) to connect and run queries
-
-```bash
-go get github.com/go-sql-driver/mysql
-```
-
+1. Clone this repo
+1. Install Golang, Ginkgo, and Gomega
+1. `docker compose up --detach --wait --wait-timeout 60`
+1. `ginkgo -vv`
