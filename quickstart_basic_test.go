@@ -2,7 +2,7 @@ package docs_test_test
 
 import (
 	"database/sql"
-	"log"
+	//"log"
 	//"fmt"
 //	"os"
 	"os/exec"
@@ -32,20 +32,18 @@ var _ = Describe("QuickstartBasic", func() {
 		BeforeAll(func() {
 			// download the crash data in /tmp/ dir
 			// https://stackoverflow.com/questions/16703647/why-does-curl-return-error-23-failed-writing-body
-			cmd := exec.Command("/usr/bin/curl","-s","-N","-o","/tmp/NYPD_Crash_Data.csv","https://raw.githubusercontent.com/StarRocks/demo/master/documentation-samples/quickstart/datasets/NYPD_Crash_Data.csv")
-			err := cmd.Start()
-			// I think I should use this instead of log.Fatal
-			//Expect(err).ToNot(HaveOccurred())
-			if err != nil {
-				log.Fatal(err)
-			}
-			log.Printf("Waiting for curls to straighten...")
-			err = cmd.Wait()
-			if err != nil {
-				log.Fatal(err)
-			} else {
-				log.Printf("Curls are now straightened")
-			}
+			NYPDCurl := exec.Command("/usr/bin/curl","-s","-N","-o","/tmp/NYPD_Crash_Data.csv","https://raw.githubusercontent.com/StarRocks/demo/master/documentation-samples/quickstart/datasets/NYPD_Crash_Data.csv")
+			err := NYPDCurl.Start()
+			Expect(err).ToNot(HaveOccurred())
+			err = NYPDCurl.Wait()
+			Expect(err).ToNot(HaveOccurred())
+
+			WeatherCurl := exec.Command("/usr/bin/curl","-s","-N","-o","/tmp/72505394728.csv","https://raw.githubusercontent.com/StarRocks/demo/master/documentation-samples/quickstart/datasets/72505394728.csv")
+			err = WeatherCurl.Start()
+			Expect(err).ToNot(HaveOccurred())
+			err = WeatherCurl.Wait()
+			Expect(err).ToNot(HaveOccurred())
+
 
 			// Connect to the database
 			db, _ = sql.Open("mysql", cfg.FormatDSN())
