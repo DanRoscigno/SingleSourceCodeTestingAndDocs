@@ -23,7 +23,7 @@ jobs:
       - name: Start StarRocks
         uses: isbang/compose-action@v1.4.1
         with:
-          compose-file:"./docker-compose.yml"
+          compose-file: "./docker-compose.yml"
 
       - name: Set up Go
         uses: actions/setup-go@v3
