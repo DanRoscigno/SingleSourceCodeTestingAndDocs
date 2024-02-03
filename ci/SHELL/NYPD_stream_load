@@ -1,3 +1,4 @@
+#!/bin/ash
 cd /tmp/
 curl --location-trusted -u root:""          \
     -T ./NYPD_Crash_Data.csv                \
