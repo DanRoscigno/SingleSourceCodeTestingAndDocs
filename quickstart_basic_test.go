@@ -51,10 +51,10 @@ var _ = Describe("QuickstartBasic", func() {
 
 		})
 
-		AfterAll(func() {
-			_, err := db.Exec(`DROP DATABASE IF EXISTS DocsQA`)
-			Expect(err).ToNot(HaveOccurred())
-		})
+		//AfterAll(func() {
+			//_, err := db.Exec(`DROP DATABASE IF EXISTS quickstart`)
+			//Expect(err).ToNot(HaveOccurred())
+		//})
 
 		It("should be able to run SQL commands", func() {
 			By("creating a database")
@@ -95,6 +95,15 @@ var _ = Describe("QuickstartBasic", func() {
 			_, err = db.Exec(SQL)
 			Expect(err).ToNot(HaveOccurred())
 		})
+
+		////It("should be able to load data via stream load", func() {
+			//By("uploading the NYPD crash data")
+			////NYPDStreamLoad := exec.Command("SHELL/NYPD_stream_load")
+			//err := NYPDStreamLoad.Start()
+			//Expect(err).ToNot(HaveOccurred())
+			//err = NYPDStreamLoad.Wait()
+			//Expect(err).ToNot(HaveOccurred())
+		//})
 
 	})
 })
