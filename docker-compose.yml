@@ -1,28 +1,11 @@
 version: "3.9"
 services:
 
-  test-harness:
-    image: ginkgo
-    hostname: ginkgo
-    container_name: ginkgo
-    environment:
-      - AWS_S3_ACCESS_KEY=${AWS_S3_ACCESS_KEY}
-      - AWS_S3_SECRET_KEY=${AWS_S3_SECRET_KEY}
-    user: root
-    build:
-      context: ci
-      dockerfile: ginkgo.Dockerfile
-    depends_on:
-      starrocks-be:
-        condition: service_healthy
-        restart: true
-    command:
-      ginkgo -vv
-
   starrocks-fe:
     image: starrocks/fe-ubuntu:3.2-latest
     hostname: fe
     container_name: fe
+    profiles: [starrocks]
     user: root
 
     command:
@@ -48,6 +31,7 @@ services:
         /opt/starrocks/be/bin/start_be.sh
     hostname: be
     container_name: be
+    profiles: [starrocks]
     user: root
     depends_on:
       starrocks-fe:
@@ -60,3 +44,23 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+  test-harness:
+    image: ginkgo
+    hostname: ginkgo
+    container_name: ginkgo
+    profiles: [test-harness]
+    environment:
+      - AWS_S3_ACCESS_KEY=${AWS_S3_ACCESS_KEY}
+      - AWS_S3_SECRET_KEY=${AWS_S3_SECRET_KEY}
+    user: root
+    build:
+      context: ci
+      dockerfile: ginkgo.Dockerfile
+        #depends_on:
+        #starrocks-be:
+        #condition: service_healthy
+        #restart: true
+    command:
+      ginkgo -vv
+
