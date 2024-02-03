@@ -17,7 +17,7 @@ jobs:
       # - the compose file for StarRocks and Ginkgo/Gomega
       - uses: actions/checkout@v3
 
-      # This compose step will deploy StarRocks and
+      # These two compose steps will deploy StarRocks and
       # the test harness (Golang/Ginkgo/Gomega)
       # in Docker using the compose file in this repo
       # docker compose will return when all services
@@ -26,7 +26,10 @@ jobs:
       # The secrets for Amazon S3 are used to retrieve
       # datasets.
       - name: Start StarRocks
-        run: docker compose up --detach --wait --wait-timeout 60
+        run: docker compose --profile starrocks up --detach --wait --wait-timeout 60
+
+      - name: Run Tests
         env:
           AWS_S3_ACCESS_KEY: ${{ secrets.AWS_S3_ACCESS_KEY }}
           AWS_S3_SECRET_KEY: ${{ secrets.AWS_S3_SECRET_KEY }}
+        run: docker compose run test-harness

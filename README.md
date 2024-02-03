@@ -122,9 +122,17 @@ Code snippets are imported from the tests using [`docusaurus-theme-github-codebl
 ## Running the system
 
 1. Clone this repo
-1. Install Golang, Ginkgo, and Gomega
-1. `docker compose up --detach --wait --wait-timeout 60`
-1. `ginkgo -vv`
+2. Start StarRocks
+
+```bash
+docker compose --profile starrocks up --detach --wait --wait-timeout 60
+```
+
+3. Run the tests
+
+```bash
+docker compose run test-harness
+```
 
 ## Add a new test
 
@@ -133,15 +141,3 @@ To test the basic [quickstart](https://docs.starrocks.io/docs/quick_start/shared
 ```bash
 ginkgo generate quickstart_basic
 ```
-
-## TEMP
-
-Temporary until I add the Ginkgo container to the compose file.
-
-Dockerfile for ginkgo is in root dir of repo
-
-docker build .
-
-docker run  -ti \
---network host \
-ca538899436c0b584ed26eada78e72008360b67c19abe ash
