@@ -133,3 +133,15 @@ To test the basic [quickstart](https://docs.starrocks.io/docs/quick_start/shared
 ```bash
 ginkgo generate quickstart_basic
 ```
+
+## TEMP
+
+Temporary until I add the Ginkgo container to the compose file.
+
+Dockerfile for ginkgo is in root dir of repo
+
+docker build .
+
+docker run  -ti \
+--network host \
+ca538899436c0b584ed26eada78e72008360b67c19abe ash
