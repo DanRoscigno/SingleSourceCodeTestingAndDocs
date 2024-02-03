@@ -25,7 +25,7 @@ var _ = Describe("QuickstartBasic", func() {
 			User:                 "root",
 			Passwd:               "",
 			Net:                  "tcp",
-			Addr:                 "127.0.0.1:9030",
+			Addr:                 "fe:9030",
 			AllowNativePasswords: true,
 		}
 
