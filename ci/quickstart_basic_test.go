@@ -64,7 +64,7 @@ var _ = Describe("QuickstartBasic", func() {
 
 		It("should be able to run SQL commands", func() {
 			By("choosing a database")
-			_, err := db.Exec(`USE xquickstart`)
+			_, err := db.Exec(`USE quickstart`)
 			Expect(err).ToNot(HaveOccurred())
 		})
 
