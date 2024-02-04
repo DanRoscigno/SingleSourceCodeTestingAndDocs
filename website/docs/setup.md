@@ -1,7 +1,10 @@
+---
+sidebar_position: 10
+---
+
 # Single sourcing documentation code snippets from end to end tests
 
-The README is live at:
-[https://danroscigno.github.io/SingleSourceCodeTestingAndDocs/docs](https://danroscigno.github.io/SingleSourceCodeTestingAndDocs/docs)
+Live site: [https://danroscigno.github.io/SingleSourceCodeTestingAndDocs/docs](https://danroscigno.github.io/SingleSourceCodeTestingAndDocs/docs)
 
 ## Two lifecycles for technical documentation
 
@@ -84,7 +87,7 @@ creates and populates a table in a database.
 
 The SQL that causes this magic to happen looks like this:
 
-```sql
+```plaintext
 -- Create table from S3 using FILES() table function
 CREATE TABLE DocsQA.user_behavior_inferred
 AS SELECT * FROM FILES (
@@ -103,14 +106,16 @@ the query and pasted it into a Markdown file. But today I would instead use
 this syntax to grab the above from the test specification like so:
 
 <pre>
-```sql reference title="Create table from S3 using FILES() table function"
+\`\`\`sql reference title="Create table from S3 using FILES() table function"
 https://github.com/DanRoscigno/docs/blob/6d6fcf905162adf80bd094cb9dd133a5c557bdd3/SQL/files_table_fxn.sql#L1-L11
-```
+\`\`\`
 </pre>
 
 In the docs this looks like:
 
-![code snippet rendered](./img/testSQL.png)
+```sql reference title="Create table from S3 using FILES() table function"
+https://github.com/DanRoscigno/docs/blob/6d6fcf905162adf80bd094cb9dd133a5c557bdd3/SQL/files_table_fxn.sql#L1-L11
+```
 
 ## Components
 
