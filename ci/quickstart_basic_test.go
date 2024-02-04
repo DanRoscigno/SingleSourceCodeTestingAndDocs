@@ -76,7 +76,7 @@ var _ = Describe("QuickstartBasic", func() {
 
 		It("should be able to run SQL commands", func() {
 			By("creating the crash data table")
-			b, err := os.ReadFile("SQL/NYPD_table.sql")
+			b, err := os.ReadFile("SQL/quickstart/basic/NYPD_table.sql")
 			if err != nil {
 				fmt.Print(err)
 			}
@@ -87,7 +87,7 @@ var _ = Describe("QuickstartBasic", func() {
 
 		It("should be able to run SQL commands", func() {
 			By("creating the weather data table")
-			b, err := os.ReadFile("SQL/Weather_table.sql")
+			b, err := os.ReadFile("SQL/quickstart/basic/Weather_table.sql")
 			if err != nil {
 				fmt.Print(err)
 			}
@@ -98,19 +98,56 @@ var _ = Describe("QuickstartBasic", func() {
 
 		It("should be able to load data via stream load", func() {
 			By("uploading the NYPD crash data")
-			NYPDStreamLoad := exec.Command("SHELL/NYPD_stream_load")
+			NYPDStreamLoad := exec.Command("SHELL/quickstart/basic/NYPD_stream_load")
 			err := NYPDStreamLoad.Start()
 			Expect(err).ToNot(HaveOccurred())
 			err = NYPDStreamLoad.Wait()
 			Expect(err).ToNot(HaveOccurred())
 
 			By("uploading the NOAA weather data")
-			WeatherStreamLoad := exec.Command("SHELL/Weather_stream_load")
+			WeatherStreamLoad := exec.Command("SHELL/quickstart/basic/Weather_stream_load")
 			err = WeatherStreamLoad.Start()
 			Expect(err).ToNot(HaveOccurred())
 			err = WeatherStreamLoad.Wait()
 			Expect(err).ToNot(HaveOccurred())
 		})
 
+		It("should be able to query tables", func() {
+			By("querying the crash data table")
+			b, err := os.ReadFile("SQL/quickstart/basic/CrashesPerHour.sql")
+			if err != nil {
+				fmt.Print(err)
+			}
+			SQL := string(b)
+			_, err = db.Exec(SQL)
+			Expect(err).ToNot(HaveOccurred())
+
+			By("querying the weather data table")
+			b, err = os.ReadFile("SQL/quickstart/basic/AverageTemp.sql")
+			if err != nil {
+				fmt.Print(err)
+			}
+			SQL = string(b)
+			_, err = db.Exec(SQL)
+			Expect(err).ToNot(HaveOccurred())
+
+			By("JOINing to see impact of low visibility")
+			b, err = os.ReadFile("SQL/quickstart/basic/LowVisibility.sql")
+			if err != nil {
+				fmt.Print(err)
+			}
+			SQL = string(b)
+			_, err = db.Exec(SQL)
+			Expect(err).ToNot(HaveOccurred())
+
+			By("JOINing to see impact of icy weather")
+			b, err = os.ReadFile("SQL/quickstart/basic/Icy.sql")
+			if err != nil {
+				fmt.Print(err)
+			}
+			SQL = string(b)
+			_, err = db.Exec(SQL)
+			Expect(err).ToNot(HaveOccurred())
+		})
 	})
 })
