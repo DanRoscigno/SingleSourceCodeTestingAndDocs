@@ -9,6 +9,9 @@ on:
 
 permissions:
   contents: write
+defaults:
+  run:
+    working-directory: website
 
 jobs:
   deploy:
