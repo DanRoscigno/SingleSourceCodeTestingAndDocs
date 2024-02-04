@@ -18,7 +18,7 @@ var _ = Describe("QuickstartBasic", func() {
 	//AWS_S3_ACCESS_KEY := os.Getenv("AWS_S3_ACCESS_KEY")
 	//AWS_S3_SECRET_KEY := os.Getenv("AWS_S3_SECRET_KEY")
 
-	When("Running a single FE and BE via Docker compose", Ordered, func() {
+	When("Running the basic Quick Start", Ordered, func() {
 		var db *sql.DB
 
 		cfg := mysql.Config{
@@ -32,49 +32,49 @@ var _ = Describe("QuickstartBasic", func() {
 		BeforeAll(func() {
 			// download the crash data in /tmp/ dir
 			// https://stackoverflow.com/questions/16703647/why-does-curl-return-error-23-failed-writing-body
+			By("Downloading the NYPD Crash data")
 			NYPDCurl := exec.Command("/usr/bin/curl","-s","-N","-o","/tmp/NYPD_Crash_Data.csv","https://raw.githubusercontent.com/StarRocks/demo/master/documentation-samples/quickstart/datasets/NYPD_Crash_Data.csv")
 			err := NYPDCurl.Start()
 			Expect(err).ToNot(HaveOccurred())
 			err = NYPDCurl.Wait()
 			Expect(err).ToNot(HaveOccurred())
 
+			By("Downloading the NOAA weather data")
 			WeatherCurl := exec.Command("/usr/bin/curl","-s","-N","-o","/tmp/72505394728.csv","https://raw.githubusercontent.com/StarRocks/demo/master/documentation-samples/quickstart/datasets/72505394728.csv")
 			err = WeatherCurl.Start()
 			Expect(err).ToNot(HaveOccurred())
 			err = WeatherCurl.Wait()
 			Expect(err).ToNot(HaveOccurred())
 
-
 			// Connect to the database
-			db, _ = sql.Open("mysql", cfg.FormatDSN())
+			By("Connecting to StarRocks FE")
+			db, err = sql.Open("mysql", cfg.FormatDSN())
 			db.SetMaxOpenConns(1)
+			Expect(err).ToNot(HaveOccurred())
 
 		})
 
-		//AfterAll(func() {
-			//_, err := db.Exec(`DROP DATABASE IF EXISTS quickstart`)
-			//Expect(err).ToNot(HaveOccurred())
-		//})
+		AfterAll(func() {
+			By("dropping quickstart DB")
+			_, err := db.Exec(`DROP DATABASE IF EXISTS quickstart`)
+			Expect(err).ToNot(HaveOccurred())
+		})
 
-		It("should be able to run SQL commands", func() {
+		It("DDL: Setup quickstart DB", func() {
 			By("creating a database")
 			_, err := db.Exec(`CREATE DATABASE IF NOT EXISTS quickstart`)
 			Expect(err).ToNot(HaveOccurred())
-		})
 
-		It("should be able to run SQL commands", func() {
 			By("choosing a database")
-			_, err := db.Exec(`USE quickstart`)
+			_, err = db.Exec(`USE quickstart`)
 			Expect(err).ToNot(HaveOccurred())
-		})
 
-		It("should be able to run SQL commands", func() {
 			By("setting the number of replicas")
-			_, err := db.Exec(`ADMIN SET FRONTEND CONFIG ('default_replication_num' = "1");`)
+			_, err = db.Exec(`ADMIN SET FRONTEND CONFIG ('default_replication_num' = "1");`)
 			Expect(err).ToNot(HaveOccurred())
 		})
 
-		It("should be able to run SQL commands", func() {
+		It("DDL: Create quickstart tables", func() {
 			By("creating the crash data table")
 			b, err := os.ReadFile("SQL/quickstart/basic/NYPD_table.sql")
 			if err != nil {
@@ -83,15 +83,13 @@ var _ = Describe("QuickstartBasic", func() {
 			SQL := string(b)
 			_, err = db.Exec(SQL)
 			Expect(err).ToNot(HaveOccurred())
-		})
 
-		It("should be able to run SQL commands", func() {
 			By("creating the weather data table")
-			b, err := os.ReadFile("SQL/quickstart/basic/Weather_table.sql")
+			b, err = os.ReadFile("SQL/quickstart/basic/Weather_table.sql")
 			if err != nil {
 				fmt.Print(err)
 			}
-			SQL := string(b)
+			SQL = string(b)
 			_, err = db.Exec(SQL)
 			Expect(err).ToNot(HaveOccurred())
 		})
