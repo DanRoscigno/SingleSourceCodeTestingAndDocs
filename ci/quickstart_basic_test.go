@@ -103,6 +103,13 @@ var _ = Describe("QuickstartBasic", func() {
 			Expect(err).ToNot(HaveOccurred())
 			err = NYPDStreamLoad.Wait()
 			Expect(err).ToNot(HaveOccurred())
+
+			By("uploading the NOAA weather data")
+			WeatherStreamLoad := exec.Command("SHELL/Weather_stream_load")
+			err = WeatherStreamLoad.Start()
+			Expect(err).ToNot(HaveOccurred())
+			err = WeatherStreamLoad.Wait()
+			Expect(err).ToNot(HaveOccurred())
 		})
 
 	})

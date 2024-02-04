@@ -57,10 +57,6 @@ services:
     build:
       context: ci
       dockerfile: ginkgo.Dockerfile
-        #depends_on:
-        #starrocks-be:
-        #condition: service_healthy
-        #restart: true
     command:
       ginkgo -vv
 
