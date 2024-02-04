@@ -1,5 +1,7 @@
 # Single sourcing documentation code snippets from end to end tests
 
+Live site: [https://danroscigno.github.io/SingleSourceCodeTestingAndDocs/docs](https://danroscigno.github.io/SingleSourceCodeTestingAndDocs/docs)
+
 ## Two lifecycles for technical documentation
 
 #### Documenting a feature
