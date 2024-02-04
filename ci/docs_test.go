@@ -32,6 +32,7 @@ var _ = Describe("Docs", func() {
 			By("Connecting to StarRocks FE")
 			db, _ = sql.Open("mysql", cfg.FormatDSN())
 			db.SetMaxOpenConns(1)
+			Expect(db.Ping()).Should(Succeed())
 		})
 
 		AfterAll(func() {

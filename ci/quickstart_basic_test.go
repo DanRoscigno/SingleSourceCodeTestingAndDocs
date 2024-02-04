@@ -51,6 +51,7 @@ var _ = Describe("QuickstartBasic", func() {
 			db, err = sql.Open("mysql", cfg.FormatDSN())
 			db.SetMaxOpenConns(1)
 			Expect(err).ToNot(HaveOccurred())
+			Expect(db.Ping()).Should(Succeed())
 
 		})
 
