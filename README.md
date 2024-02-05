@@ -1,7 +1,7 @@
 # Single sourcing documentation code snippets from end to end tests
 
 The README is live at:
-[https://danroscigno.github.io/SingleSourceCodeTestingAndDocs/]([https://danroscigno.github.io/SingleSourceCodeTestingAndDocs/docs](https://danroscigno.github.io/SingleSourceCodeTestingAndDocs/docs/setup))
+[https://danroscigno.github.io/SingleSourceCodeTestingAndDocs/]([https://danroscigno.github.io/SingleSourceCodeTestingAndDocs/docs](https://danroscigno.github.io/SingleSourceCodeTestingAndDocs/docs/setup)
 
 ## Two lifecycles for technical documentation
 
