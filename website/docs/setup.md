@@ -21,8 +21,11 @@ Live site: [https://danroscigno.github.io/SingleSourceCodeTestingAndDocs/docs](h
 flowchart TD
 
 C[Write Docs]--> 
-E[Test docs by hand] -- Update the docs -->C
-E -->J
+E[Test docs by hand]
+E -->G
+G{Pass}
+G -- yes -->J
+G -- no -->C
 J[/Publish Docs/] -->
 M[/Breaking change/] -->
 P[/Receive Complaint/] 
