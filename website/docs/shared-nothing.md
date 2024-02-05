@@ -1,3 +1,7 @@
+---
+sidebar_position: 30
+---
+
 import DDL from './_assets/quick-start/_DDL.mdx'
 import Clients from './_assets/quick-start/_clientsAllin1.mdx'
 import SQL from './_assets/quick-start/_SQL.mdx'

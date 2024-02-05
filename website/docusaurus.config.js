@@ -35,9 +35,16 @@ const config = {
     locales: ['en'],
   },
 
+  markdown: {
+    mermaid: true,
+  },
+
   // theme-github-codeblock allows including code snippets using github URLS
   // https://opensource.saucelabs.com/docusaurus-theme-github-codeblock/
-  themes: ['docusaurus-theme-github-codeblock'],
+  themes: [
+    'docusaurus-theme-github-codeblock',
+    '@docusaurus/theme-mermaid'
+  ],
 
   presets: [
     [
