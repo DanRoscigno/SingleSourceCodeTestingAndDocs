@@ -1,7 +1,6 @@
 package docs_test
 
 import (
-	"os/exec"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )
@@ -14,19 +13,10 @@ var _ = Describe("QuickstartBasic", func() {
 			// download the crash data in /tmp/ dir
 			// https://stackoverflow.com/questions/16703647/why-does-curl-return-error-23-failed-writing-body
 			By("Downloading the NYPD Crash data")
-			NYPDCurl := exec.Command("/usr/bin/curl","-s","-N","-o","/tmp/NYPD_Crash_Data.csv","https://raw.githubusercontent.com/StarRocks/demo/master/documentation-samples/quickstart/datasets/NYPD_Crash_Data.csv")
-			err := NYPDCurl.Start()
-			Expect(err).ToNot(HaveOccurred())
-			err = NYPDCurl.Wait()
-			Expect(err).ToNot(HaveOccurred())
+			LongRunningScript("SHELL/quickstart/basic/NYPD_download")
 
 			By("Downloading the NOAA weather data")
-			WeatherCurl := exec.Command("/usr/bin/curl","-s","-N","-o","/tmp/72505394728.csv","https://raw.githubusercontent.com/StarRocks/demo/master/documentation-samples/quickstart/datasets/72505394728.csv")
-			err = WeatherCurl.Start()
-			Expect(err).ToNot(HaveOccurred())
-			err = WeatherCurl.Wait()
-			Expect(err).ToNot(HaveOccurred())
-
+			LongRunningScript("SHELL/quickstart/basic/Weather_download")
 		})
 
 		AfterAll(func() {
@@ -63,18 +53,10 @@ var _ = Describe("QuickstartBasic", func() {
 
 		It("should be able to load data via stream load", func() {
 			By("uploading the NYPD crash data")
-			NYPDStreamLoad := exec.Command("SHELL/quickstart/basic/NYPD_stream_load")
-			err := NYPDStreamLoad.Start()
-			Expect(err).ToNot(HaveOccurred())
-			err = NYPDStreamLoad.Wait()
-			Expect(err).ToNot(HaveOccurred())
+			LongRunningScript("SHELL/quickstart/basic/NYPD_stream_load")
 
 			By("uploading the NOAA weather data")
-			WeatherStreamLoad := exec.Command("SHELL/quickstart/basic/Weather_stream_load")
-			err = WeatherStreamLoad.Start()
-			Expect(err).ToNot(HaveOccurred())
-			err = WeatherStreamLoad.Wait()
-			Expect(err).ToNot(HaveOccurred())
+			LongRunningScript("SHELL/quickstart/basic/Weather_stream_load")
 		})
 
 		It("should be able to query tables", func() {
