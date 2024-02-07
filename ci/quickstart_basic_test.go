@@ -1,8 +1,6 @@
 package docs_test
 
 import (
-	"fmt"
-  	"os"
 	"os/exec"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
@@ -53,22 +51,12 @@ var _ = Describe("QuickstartBasic", func() {
 
 		It("DDL: Create quickstart tables", func() {
 			By("creating the crash data table")
-			// I need a function in helper.go that takes a string (file path/name)
-			// and returns the SQL from the file as a string.
-			//b, err := os.ReadFile("SQL/quickstart/basic/NYPD_table.sql")
-			//if err != nil {
-				//fmt.Print(err)
-			//}
 			SQL := SQLFromFile("SQL/quickstart/basic/NYPD_table.sql")
 			_, err := db.Exec(SQL)
 			Expect(err).ToNot(HaveOccurred())
 
 			By("creating the weather data table")
-			b, err := os.ReadFile("SQL/quickstart/basic/Weather_table.sql")
-			if err != nil {
-				fmt.Print(err)
-			}
-			SQL = string(b)
+			SQL = SQLFromFile("SQL/quickstart/basic/Weather_table.sql")
 			_, err = db.Exec(SQL)
 			Expect(err).ToNot(HaveOccurred())
 		})
@@ -91,38 +79,22 @@ var _ = Describe("QuickstartBasic", func() {
 
 		It("should be able to query tables", func() {
 			By("querying the crash data table")
-			b, err := os.ReadFile("SQL/quickstart/basic/CrashesPerHour.sql")
-			if err != nil {
-				fmt.Print(err)
-			}
-			SQL := string(b)
-			_, err = db.Exec(SQL)
+			SQL := SQLFromFile("SQL/quickstart/basic/CrashesPerHour.sql")
+			_, err := db.Exec(SQL)
 			Expect(err).ToNot(HaveOccurred())
 
 			By("querying the weather data table")
-			b, err = os.ReadFile("SQL/quickstart/basic/AverageTemp.sql")
-			if err != nil {
-				fmt.Print(err)
-			}
-			SQL = string(b)
+			SQL = SQLFromFile("SQL/quickstart/basic/AverageTemp.sql")
 			_, err = db.Exec(SQL)
 			Expect(err).ToNot(HaveOccurred())
 
 			By("JOINing to see impact of low visibility")
-			b, err = os.ReadFile("SQL/quickstart/basic/LowVisibility.sql")
-			if err != nil {
-				fmt.Print(err)
-			}
-			SQL = string(b)
+			SQL = SQLFromFile("SQL/quickstart/basic/LowVisibility.sql")
 			_, err = db.Exec(SQL)
 			Expect(err).ToNot(HaveOccurred())
 
 			By("JOINing to see impact of icy weather")
-			b, err = os.ReadFile("SQL/quickstart/basic/Icy.sql")
-			if err != nil {
-				fmt.Print(err)
-			}
-			SQL = string(b)
+			SQL = SQLFromFile("SQL/quickstart/basic/Icy.sql")
 			_, err = db.Exec(SQL)
 			Expect(err).ToNot(HaveOccurred())
 		})
