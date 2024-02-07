@@ -1,33 +1,16 @@
 package docs_test
 
 import (
-	"database/sql"
-	//"log"
 	"fmt"
   	"os"
 	"os/exec"
-	//"strings"
-
-//	"github.com/go-sql-driver/mysql"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )
 
 var _ = Describe("QuickstartBasic", func() {
 
-	//AWS_S3_ACCESS_KEY := os.Getenv("AWS_S3_ACCESS_KEY")
-	//AWS_S3_SECRET_KEY := os.Getenv("AWS_S3_SECRET_KEY")
-
 	When("Running the basic Quick Start", Ordered, func() {
-		var db *sql.DB
-
-		//cfg := mysql.Config{
-			//User:                 "root",
-			//Passwd:               "",
-			//Net:                  "tcp",
-			//Addr:                 "fe:9030",
-			//AllowNativePasswords: true,
-		//}
 
 		BeforeAll(func() {
 			// download the crash data in /tmp/ dir
@@ -45,14 +28,6 @@ var _ = Describe("QuickstartBasic", func() {
 			Expect(err).ToNot(HaveOccurred())
 			err = WeatherCurl.Wait()
 			Expect(err).ToNot(HaveOccurred())
-
-			// Connect to the database
-			By("Connecting to StarRocks FE")
-			//db, _ = sql.Open("mysql", cfg.FormatDSN())
-			db, _ = GetDSNConnection()
-			db.SetMaxOpenConns(1)
-			Expect(err).ToNot(HaveOccurred())
-			Expect(db.Ping()).Should(Succeed())
 
 		})
 

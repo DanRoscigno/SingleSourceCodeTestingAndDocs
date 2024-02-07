@@ -11,3 +11,10 @@ func TestDocs(t *testing.T) {
 	RegisterFailHandler(Fail)
 	RunSpecs(t, "Docs Suite")
 }
+
+var _ = BeforeSuite(func() {
+	By("Connecting to StarRocks FE")
+	db, _ = GetDSNConnection()
+	db.SetMaxOpenConns(1)
+	Expect(db.Ping()).Should(Succeed())
+})

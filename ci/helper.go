@@ -3,15 +3,6 @@ package docs_test
 
 import (
     "database/sql"
-//    "net/url"
-//	"fmt"
-//	"os"
-//	"strings"
-
-//	. "github.com/onsi/ginkgo/v2"
-//	. "github.com/onsi/gomega"
-
-	//"time"
 	"github.com/go-sql-driver/mysql"
 )
 var db *sql.DB
