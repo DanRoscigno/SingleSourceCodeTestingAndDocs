@@ -1,16 +1,12 @@
 package docs_test
 
 import (
-	"database/sql"
 	"fmt"
 	"os"
 	"strings"
 
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
-
-	//"time"
-//	"github.com/go-sql-driver/mysql"
 )
 
 var _ = Describe("Docs", func() {
@@ -18,23 +14,6 @@ var _ = Describe("Docs", func() {
 	AWS_S3_SECRET_KEY := os.Getenv("AWS_S3_SECRET_KEY")
 
 	When("Loading from S3 docs/loading/s3", Ordered, func() {
-		var db *sql.DB
-
-		//cfg := mysql.Config{
-			//User:                 "root",
-			//Passwd:               "",
-			//Net:                  "tcp",
-			//Addr:                 "fe:9030",
-			//AllowNativePasswords: true,
-		//}
-
-		BeforeAll(func() {
-			By("Connecting to StarRocks FE")
-			//db, _ = sql.Open("mysql", cfg.FormatDSN())
-			db, _ = GetDSNConnection()
-			db.SetMaxOpenConns(1)
-			Expect(db.Ping()).Should(Succeed())
-		})
 
 		AfterAll(func() {
 			var err error
