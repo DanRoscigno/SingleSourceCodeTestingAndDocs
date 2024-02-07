@@ -15,14 +15,25 @@ var _ = Describe("Docs", func() {
 
 	When("Loading from S3 docs/loading/s3", Ordered, func() {
 
+		BeforeAll(func() {
+			By("Reset settings")
+			_, err := db.Exec(`ADMIN SET FRONTEND CONFIG ('default_replication_num' = "1");`)
+			Expect(err).ToNot(HaveOccurred())
+		})
+
 		AfterAll(func() {
 			var err error
+
 			By("DROP table user_behavior_inferred")
 			_, err = db.Exec(`DROP TABLE IF EXISTS DocsQA.user_behavior_inferred`)
 			Expect(err).ToNot(HaveOccurred())
 
 			By("DROP DB DocsQA")
 			_, err = db.Exec(`DROP DATABASE IF EXISTS DocsQA`)
+			Expect(err).ToNot(HaveOccurred())
+
+			By("Reset settings")
+			_, err = db.Exec(`ADMIN SET FRONTEND CONFIG ('default_replication_num' = "3");`)
 			Expect(err).ToNot(HaveOccurred())
 		})
 
@@ -35,9 +46,9 @@ var _ = Describe("Docs", func() {
 			_, err = db.Exec(`USE DocsQA`)
 			Expect(err).ToNot(HaveOccurred())
 
-			By("setting the number of replicas")
-			_, err = db.Exec(`ADMIN SET FRONTEND CONFIG ('default_replication_num' = "1");`)
-			Expect(err).ToNot(HaveOccurred())
+			//By("setting the number of replicas")
+			//_, err = db.Exec(`ADMIN SET FRONTEND CONFIG ('default_replication_num' = "1");`)
+			//Expect(err).ToNot(HaveOccurred())
 		})
 
 		It("Use the FILES table fxn", func() {

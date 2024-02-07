@@ -9,6 +9,10 @@ var _ = Describe("QuickstartBasic", func() {
 
 	When("Running the basic Quick Start", Ordered, func() {
 
+		// The database is already initialized, and a connection
+		// is available with the variable `db` which is setup
+		// in the helpers.go file.
+
 		BeforeAll(func() {
 			// download the crash data in /tmp/ dir
 			// https://stackoverflow.com/questions/16703647/why-does-curl-return-error-23-failed-writing-body
@@ -23,19 +27,16 @@ var _ = Describe("QuickstartBasic", func() {
 			By("dropping quickstart DB")
 			_, err := db.Exec(`DROP DATABASE IF EXISTS quickstart`)
 			Expect(err).ToNot(HaveOccurred())
+
+			By("Reset settings")
+			_, err = db.Exec(`ADMIN SET FRONTEND CONFIG ('default_replication_num' = "3");`)
+			Expect(err).ToNot(HaveOccurred())
 		})
 
 		It("DDL: Setup quickstart DB", func() {
 			By("creating a database")
-			_, err := db.Exec(`CREATE DATABASE IF NOT EXISTS quickstart`)
-			Expect(err).ToNot(HaveOccurred())
-
-			By("choosing a database")
-			_, err = db.Exec(`USE quickstart`)
-			Expect(err).ToNot(HaveOccurred())
-
-			By("setting the number of replicas")
-			_, err = db.Exec(`ADMIN SET FRONTEND CONFIG ('default_replication_num' = "1");`)
+			SQL := SQLFromFile("SQL/quickstart/basic/quickstart_DB.sql")
+			_, err := db.Exec(SQL)
 			Expect(err).ToNot(HaveOccurred())
 		})
 

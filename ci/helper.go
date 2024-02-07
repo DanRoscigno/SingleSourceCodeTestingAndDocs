@@ -37,3 +37,6 @@ func LongRunningScript(filename string) {
     err = longJob.Wait()
     Expect(err).ToNot(HaveOccurred())
 }
+
+func ResetSettings() {
+}
