@@ -3,6 +3,8 @@ package docs_test
 
 import (
     "database/sql"
+    "os"
+    "fmt"
 	"github.com/go-sql-driver/mysql"
 )
 var db *sql.DB
@@ -16,5 +18,13 @@ func GetDSNConnection() (*sql.DB, error) {
 	AllowNativePasswords: true,
     }
     return sql.Open("mysql", cfg.FormatDSN())
+}
+
+func SQLFromFile(filename string) string {
+    bytes, err := os.ReadFile(filename)
+    if err != nil {
+	fmt.Print(err)
+    }
+    return string(bytes)
 }
 

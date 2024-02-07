@@ -53,16 +53,18 @@ var _ = Describe("QuickstartBasic", func() {
 
 		It("DDL: Create quickstart tables", func() {
 			By("creating the crash data table")
-			b, err := os.ReadFile("SQL/quickstart/basic/NYPD_table.sql")
-			if err != nil {
-				fmt.Print(err)
-			}
-			SQL := string(b)
-			_, err = db.Exec(SQL)
+			// I need a function in helper.go that takes a string (file path/name)
+			// and returns the SQL from the file as a string.
+			//b, err := os.ReadFile("SQL/quickstart/basic/NYPD_table.sql")
+			//if err != nil {
+				//fmt.Print(err)
+			//}
+			SQL := SQLFromFile("SQL/quickstart/basic/NYPD_table.sql")
+			_, err := db.Exec(SQL)
 			Expect(err).ToNot(HaveOccurred())
 
 			By("creating the weather data table")
-			b, err = os.ReadFile("SQL/quickstart/basic/Weather_table.sql")
+			b, err := os.ReadFile("SQL/quickstart/basic/Weather_table.sql")
 			if err != nil {
 				fmt.Print(err)
 			}
