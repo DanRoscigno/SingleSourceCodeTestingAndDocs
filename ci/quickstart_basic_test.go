@@ -1,4 +1,4 @@
-package docs_test_test
+package docs_test
 
 import (
 	"database/sql"
@@ -8,7 +8,7 @@ import (
 	"os/exec"
 	//"strings"
 
-	"github.com/go-sql-driver/mysql"
+//	"github.com/go-sql-driver/mysql"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )
@@ -21,13 +21,13 @@ var _ = Describe("QuickstartBasic", func() {
 	When("Running the basic Quick Start", Ordered, func() {
 		var db *sql.DB
 
-		cfg := mysql.Config{
-			User:                 "root",
-			Passwd:               "",
-			Net:                  "tcp",
-			Addr:                 "fe:9030",
-			AllowNativePasswords: true,
-		}
+		//cfg := mysql.Config{
+			//User:                 "root",
+			//Passwd:               "",
+			//Net:                  "tcp",
+			//Addr:                 "fe:9030",
+			//AllowNativePasswords: true,
+		//}
 
 		BeforeAll(func() {
 			// download the crash data in /tmp/ dir
@@ -48,7 +48,8 @@ var _ = Describe("QuickstartBasic", func() {
 
 			// Connect to the database
 			By("Connecting to StarRocks FE")
-			db, err = sql.Open("mysql", cfg.FormatDSN())
+			//db, _ = sql.Open("mysql", cfg.FormatDSN())
+			db, _ = GetDSNConnection()
 			db.SetMaxOpenConns(1)
 			Expect(err).ToNot(HaveOccurred())
 			Expect(db.Ping()).Should(Succeed())
