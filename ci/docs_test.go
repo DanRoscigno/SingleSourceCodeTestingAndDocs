@@ -47,7 +47,10 @@ var _ = Describe("Docs", func() {
 				fmt.Print(err)
 			}
 			SQL := string(b)
-			re := strings.NewReplacer("AAAAAAAAAAAAAAAAAAAA", AWS_S3_ACCESS_KEY, "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", AWS_S3_SECRET_KEY)
+			re := strings.NewReplacer(
+				"AAAAAAAAAAAAAAAAAAAA", AWS_S3_ACCESS_KEY,
+				"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", AWS_S3_SECRET_KEY,
+			)
 
 			SQLWithKey := re.Replace(SQL)
 			_, err = db.Exec(SQLWithKey)

@@ -5,7 +5,9 @@ import (
     "database/sql"
     "os"
     "fmt"
-	"github.com/go-sql-driver/mysql"
+    "github.com/go-sql-driver/mysql"
+    "os/exec"
+    . "github.com/onsi/gomega"
 )
 var db *sql.DB
 
@@ -28,3 +30,10 @@ func SQLFromFile(filename string) string {
     return string(bytes)
 }
 
+func LongRunningScript(filename string) {
+    longJob := exec.Command(filename)
+    err := longJob.Start()
+    Expect(err).ToNot(HaveOccurred())
+    err = longJob.Wait()
+    Expect(err).ToNot(HaveOccurred())
+}
