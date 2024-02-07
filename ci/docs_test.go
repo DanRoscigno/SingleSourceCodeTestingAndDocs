@@ -45,10 +45,6 @@ var _ = Describe("Docs", func() {
 			By("choosing a database")
 			_, err = db.Exec(`USE DocsQA`)
 			Expect(err).ToNot(HaveOccurred())
-
-			//By("setting the number of replicas")
-			//_, err = db.Exec(`ADMIN SET FRONTEND CONFIG ('default_replication_num' = "1");`)
-			//Expect(err).ToNot(HaveOccurred())
 		})
 
 		It("Use the FILES table fxn", func() {
