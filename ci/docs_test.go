@@ -10,7 +10,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	//"time"
-	"github.com/go-sql-driver/mysql"
+//	"github.com/go-sql-driver/mysql"
 )
 
 var _ = Describe("Docs", func() {
@@ -20,17 +20,18 @@ var _ = Describe("Docs", func() {
 	When("Loading from S3 docs/loading/s3", Ordered, func() {
 		var db *sql.DB
 
-		cfg := mysql.Config{
-			User:                 "root",
-			Passwd:               "",
-			Net:                  "tcp",
-			Addr:                 "fe:9030",
-			AllowNativePasswords: true,
-		}
+		//cfg := mysql.Config{
+			//User:                 "root",
+			//Passwd:               "",
+			//Net:                  "tcp",
+			//Addr:                 "fe:9030",
+			//AllowNativePasswords: true,
+		//}
 
 		BeforeAll(func() {
 			By("Connecting to StarRocks FE")
-			db, _ = sql.Open("mysql", cfg.FormatDSN())
+			//db, _ = sql.Open("mysql", cfg.FormatDSN())
+			db, _ = GetDSNConnection()
 			db.SetMaxOpenConns(1)
 			Expect(db.Ping()).Should(Succeed())
 		})
