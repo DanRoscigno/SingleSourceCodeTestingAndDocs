@@ -11,6 +11,8 @@ on:
     branches: [ main ]
     paths:
       - 'ci/**/*'
+      - '.github/workflows/test_the_docs.yml'
+      - 'docker-compose.yml'
 
 jobs:
   build:
@@ -29,13 +31,23 @@ jobs:
       # docker compose will return when all services
       # are healthy. The max time docker compose will
       # wait is 60 seconds.
-      # The secrets for Amazon S3 are used to retrieve
-      # datasets.
+      - name: Build Ginkgo container
+        run: docker compose build test-harness
+
       - name: Start StarRocks
         run: docker compose --profile starrocks up --detach --wait --wait-timeout 60
 
-      - name: Run Tests
+      - name: Test; FILES() table function
+      # The secrets for Amazon S3 are used to retrieve
+      # datasets.
         env:
           AWS_S3_ACCESS_KEY: ${{ secrets.AWS_S3_ACCESS_KEY }}
           AWS_S3_SECRET_KEY: ${{ secrets.AWS_S3_SECRET_KEY }}
-        run: docker compose run test-harness
+        run: docker compose run test-harness ginkgo -v --focus-file=./docs_test.go
+
+      - name: Test; Basic Quick Start
+        if: always()
+        env:
+          AWS_S3_ACCESS_KEY: ${{ secrets.AWS_S3_ACCESS_KEY }}
+          AWS_S3_SECRET_KEY: ${{ secrets.AWS_S3_SECRET_KEY }}
+        run: docker compose run test-harness ginkgo -v --focus-file=./quickstart_basic_test.go
