@@ -57,6 +57,3 @@ services:
     build:
       context: ci
       dockerfile: ginkgo.Dockerfile
-    command:
-      ginkgo -vv
-
