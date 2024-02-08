@@ -27,7 +27,7 @@ services:
       - /bin/bash
       - -c
       - |
-        sleep 10s; mysql --connect-timeout 2 -h fe -P 9030 -u root -e "alter system add backend \"be:9050\";"
+        sleep 3s; mysql --connect-timeout 2 -h fe -P 9030 -u root -e "alter system add backend \"be:9050\";"
         /opt/starrocks/be/bin/start_be.sh
     hostname: be
     container_name: be
