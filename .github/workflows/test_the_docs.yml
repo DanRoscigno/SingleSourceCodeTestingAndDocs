@@ -11,6 +11,8 @@ on:
     branches: [ main ]
     paths:
       - 'ci/**/*'
+      - '.github/workflows/test_the_docs.yml'
+      - 'docker-compose.yml'
 
 jobs:
   build:
