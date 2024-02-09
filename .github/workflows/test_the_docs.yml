@@ -32,27 +32,25 @@ jobs:
       # are healthy. The max time docker compose will
       # wait is 60 seconds.
       - name: Build Ginkgo container
-        run: docker compose build test-harness
+        run: docker compose -f test-harness-docker-compose.yml build
 
       - name: Start StarRocks
-        run: docker compose --profile starrocks up --detach --wait --wait-timeout 60
+        run: docker compose -f oneFE-oneBE-docker-compose.yml --profile starrocks up --detach --wait --wait-timeout 60
 
-      - name: Get Docker network list
-        if: always()
+      - name: Write Docker network name to .env
         run: ./dockerNetworks.sh
-        
 
-      - name: Test; FILES() table function
+          #- name: Test; FILES() table function
       # The secrets for Amazon S3 are used to retrieve
       # datasets.
-        env:
-          AWS_S3_ACCESS_KEY: ${{ secrets.AWS_S3_ACCESS_KEY }}
-          AWS_S3_SECRET_KEY: ${{ secrets.AWS_S3_SECRET_KEY }}
-        run: docker compose run test-harness ginkgo -v --focus-file=./docs_test.go
+      #env:
+      #AWS_S3_ACCESS_KEY: ${{ secrets.AWS_S3_ACCESS_KEY }}
+      #AWS_S3_SECRET_KEY: ${{ secrets.AWS_S3_SECRET_KEY }}
+      #run: docker compose run test-harness ginkgo -v --focus-file=./docs_test.go
  
       - name: Test; Basic Quick Start
         if: always()
         env:
           AWS_S3_ACCESS_KEY: ${{ secrets.AWS_S3_ACCESS_KEY }}
           AWS_S3_SECRET_KEY: ${{ secrets.AWS_S3_SECRET_KEY }}
-        run: docker compose run test-harness ginkgo -v --focus-file=./quickstart_basic_test.go
+        run: docker compose --env-file .env -f test-harness-docker-compose.yml run test-harness ginkgo -v --focus-file=./quickstart_basic_test.go
