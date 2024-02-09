@@ -44,7 +44,11 @@ jobs:
           AWS_S3_ACCESS_KEY: ${{ secrets.AWS_S3_ACCESS_KEY }}
           AWS_S3_SECRET_KEY: ${{ secrets.AWS_S3_SECRET_KEY }}
         run: docker compose run test-harness ginkgo -v --focus-file=./docs_test.go
-
+ 
+      - name: Get Docker network list
+        if: always()
+        run: docker network ls
+        
       - name: Test; Basic Quick Start
         if: always()
         env:
