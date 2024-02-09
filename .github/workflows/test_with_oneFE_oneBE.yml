@@ -1,0 +1,56 @@
+name: Test the docs
+
+on:
+  schedule:
+    - cron: "5 9 * * 1"
+  push:
+    branches: [ main ]
+    paths:
+      - 'ci/**/*'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'ci/**/*'
+      - '.github/workflows/test_the_docs.yml'
+      - 'docker-compose.yml'
+
+jobs:
+  build:
+
+    name: Build and test
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repo as this CI needs:
+      # - the compose file for StarRocks and Ginkgo/Gomega
+      - uses: actions/checkout@v3
+
+      # Build the test harness container (Golnag/Ginkgo/Gomega)
+      - name: Build Ginkgo container
+        run: docker compose -f test-harness-docker-compose.yml build
+
+      - name: Start StarRocks
+        run: docker compose -f oneFE-oneBE-docker-compose.yml --profile starrocks up --detach --wait --wait-timeout 60
+
+      # The test harness needs to run in the same network as StarRocks
+      # In some cases we will run compose files that set a custom
+      # network name, so it is easier in general to get the network
+      # name from the Docker daemon. This assumes that the only 
+      # Docker networks are the default one plus the network created
+      # for the StarRocks environment 
+      - name: Write Docker network name to .env
+        run: ./dockerNetworks.sh
+
+      # Any tests that will run against the StarRocks env would be 
+      # launched in steps like this one. Make sure to reset the 
+      # StarRocks environment after each run (remove any tables
+      # and databases created, and reset any settings to the default)
+      #
+      # The ginkgo command uses `--focus-file` to run only the one test
+      # file.
+      - name: Test; Basic Quick Start
+        if: always()
+        env:
+          AWS_S3_ACCESS_KEY: ${{ secrets.AWS_S3_ACCESS_KEY }}
+          AWS_S3_SECRET_KEY: ${{ secrets.AWS_S3_SECRET_KEY }}
+        run: docker compose --env-file .env -f test-harness-docker-compose.yml run test-harness ginkgo -v --focus-file=./quickstart_basic_test.go

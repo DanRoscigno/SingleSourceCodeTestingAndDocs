@@ -44,16 +44,3 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-
-  test-harness:
-    image: ginkgo
-    hostname: ginkgo
-    container_name: ginkgo
-    profiles: [test-harness]
-    environment:
-      - AWS_S3_ACCESS_KEY=${AWS_S3_ACCESS_KEY}
-      - AWS_S3_SECRET_KEY=${AWS_S3_SECRET_KEY}
-    user: root
-    build:
-      context: ci
-      dockerfile: ginkgo.Dockerfile
