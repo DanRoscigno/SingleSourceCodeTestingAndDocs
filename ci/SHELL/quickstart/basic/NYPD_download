@@ -1,4 +1,4 @@
-#!/bin/ash
+#!/bin/bash
 cd /tmp/
 curl --silent --no-buffer \
 -o /tmp/NYPD_Crash_Data.csv \

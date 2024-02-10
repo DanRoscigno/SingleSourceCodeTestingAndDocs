@@ -12,6 +12,10 @@ services:
     image: starrocks/allin1-ubuntu:3.2-latest
     hostname: fe
     container_name: quickstart
+    ports:
+      - 9030:9030
+      - 8030:8030
+      - 8040:8040
     user: root
 
     healthcheck:

@@ -1,6 +1,8 @@
 ## To Do
 
-1. Figure out why the curl command (see fail down at end of this file) fails
+1. Figure out why the curl command (see fail down at end of this file) fails. It is failing because the stream load forwards to `Failed to connect to 127.0.0.1 port 8040 after 0 ms: Couldn't connect to server` (I removed the `--silent` to see what the error is). Running the Ginkgo commands from localhost works (required editing all of the shell scripts to use bash and localhost instead of ash and fe). These changes should work from the github workflow also.
+
+So, run Gingkgo from a container when testing against separate FE and BE, and from the workflow when testing against allin1.
 1. Need to write the workflow file
 
 ### Remember to export
