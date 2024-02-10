@@ -1,0 +1,32 @@
+version: "3.9"
+name: tests_using_allin1_container
+
+  # Goal: a compose equivalent of:
+  # "docker run -p 9030:9030 -p 8030:8030 -p 8040:8040 -itd --name quickstart starrocks/allin1-ubuntu"
+
+networks:
+  allin1:
+
+services:
+  allin1:
+    image: starrocks/allin1-ubuntu:3.2-latest
+    hostname: fe
+    container_name: quickstart
+    user: root
+
+    healthcheck:
+      test: 'mysql -u root -h fe -P 9030 -e "show backends\G" |grep "Alive: true"'
+      interval: 10s
+      timeout: 5s
+      retries: 6
+    networks:
+      - allin1
+
+  test-harness:
+    extends:
+      file: ./test-harness-docker-compose.yml
+      service: test-harness
+    command: ash
+    tty: true
+    networks:
+      - allin1

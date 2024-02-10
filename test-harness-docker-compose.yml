@@ -12,10 +12,3 @@ services:
     build:
       context: ci
       dockerfile: ginkgo.Dockerfile
-    networks:
-      mynet: {}
-
-networks:
-  mynet:
-    external: true
-    name: ${network}
