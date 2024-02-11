@@ -44,11 +44,6 @@ jobs:
           go install -v github.com/onsi/ginkgo/v2/ginkgo@$version
         working-directory: ./ci
 
-      # Build the test harness container (Golnag/Ginkgo/Gomega)
-      - name: Build Ginkgo container
-        run: docker build -f ginkgo.Dockerfile -t ginkgo .
-        working-directory: ./ci
-
       - name: Start StarRocks
         run: docker compose -f allin1-docker-compose.yml up --detach --wait --wait-timeout 60
 
