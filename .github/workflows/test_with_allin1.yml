@@ -36,12 +36,13 @@ jobs:
       - name: Set up Golang
         uses: actions/setup-go@v5
         with:
-          go-version-file: 'go.mod'
+          go-version-file: 'ci/go.mod'
 
       - name: Install ginkgo
         run: |
           version=$(cat go.mod| grep "ginkgo/v2" | awk '{print $2}')
           go install -v github.com/onsi/ginkgo/v2/ginkgo@$version
+        working-directory: ./ci
 
       # Build the test harness container (Golnag/Ginkgo/Gomega)
       - name: Build Ginkgo container
