@@ -26,11 +26,15 @@ services:
     networks:
       - allin1
 
-  test-harness:
-    extends:
-      file: ./test-harness-docker-compose.yml
-      service: test-harness
-    command: ash
-    tty: true
-    networks:
-      - allin1
+  # This section is commented out as the ports of the allin1 need to be
+  #  made available to the host env and the tests need to run from the
+  #  host. Leaving this in the file as I will need it for other
+  #  situations and need a reference.
+  # test-harness:
+  #  extends:
+  #    file: ./test-harness-docker-compose.yml
+  #    service: test-harness
+  #  command: ash
+  #  tty: true
+  #  networks:
+  #    - allin1

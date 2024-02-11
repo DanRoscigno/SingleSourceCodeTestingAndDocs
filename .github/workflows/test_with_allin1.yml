@@ -1,0 +1,60 @@
+name: Test with allin1
+
+on:
+  schedule:
+    - cron: "5 9 * * 1"
+  push:
+    branches: [ main ]
+    paths:
+      - 'ci/**/quickstart/basic/*'
+      - '.github/workflows/test_with_allin1.yml'
+      - 'allin1-docker-compose.yml'
+      - 'quickstart_basic_test.go'
+      - 'helper.go'
+      - 'ginkgo.Dockerfile'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'ci/**/quickstart/basic/*'
+      - '.github/workflows/test_with_allin1.yml'
+      - 'allin1-docker-compose.yml'
+      - 'quickstart_basic_test.go'
+      - 'helper.go'
+      - 'ginkgo.Dockerfile'
+
+jobs:
+  build:
+
+    name: Build and test
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repo as this CI needs:
+      # - the compose file for StarRocks and Ginkgo/Gomega
+      - uses: actions/checkout@v3
+
+      # Build the test harness container (Golnag/Ginkgo/Gomega)
+      - name: Build Ginkgo container
+        run: docker build -f ginkgo.Dockerfile -t ginkgo .
+        working-directory: ./ci
+
+      - name: Start StarRocks
+        run: docker compose -f allin1-docker-compose.yml up --detach --wait --wait-timeout 60
+
+      # Any tests that will run against the StarRocks env would be 
+      # launched in steps like this one. Make sure to reset the 
+      # StarRocks environment after each run (remove any tables
+      # and databases created, and reset any settings to the default)
+      #
+      # The ginkgo command uses `--focus-file` to run only the one test
+      # file.
+      - name: Test; Basic Quick Start
+        if: always()
+        env:
+          AWS_S3_ACCESS_KEY: ${{ secrets.AWS_S3_ACCESS_KEY }}
+          AWS_S3_SECRET_KEY: ${{ secrets.AWS_S3_SECRET_KEY }}
+        run: ginkgo -v --focus-file=./quickstart_basic_test.go
+        working-directory: ./ci
+
+      # Add more tests here if there are other things
+      # that should run against allin1
