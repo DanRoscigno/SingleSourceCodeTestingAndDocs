@@ -14,3 +14,4 @@ RUN go install github.com/onsi/ginkgo/v2/ginkgo@v2.15.0
 
 RUN go mod download
 
+CMD ["ash"]

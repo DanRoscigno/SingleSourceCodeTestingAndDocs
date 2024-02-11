@@ -16,7 +16,7 @@ func GetDSNConnection() (*sql.DB, error) {
 	User:   "root",
 	Passwd: "",
 	Net:    "tcp",
-	Addr:   "fe:9030",
+	Addr:   "localhost:9030",
 	AllowNativePasswords: true,
     }
     return sql.Open("mysql", cfg.FormatDSN())
