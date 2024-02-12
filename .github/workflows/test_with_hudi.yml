@@ -54,7 +54,7 @@ jobs:
         working-directory: demo/documentation-samples/hudi
 
       - name: Create bucket
-        run: docker compose exec mc mc mb huditest
+        run: docker compose exec mc mc mb minio/huditest
         working-directory: demo/documentation-samples/hudi
 
       - name: Copy Spark script
