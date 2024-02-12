@@ -45,7 +45,6 @@ jobs:
 
       - name: Install ginkgo
         run: |
-          pwd
           version=$(cat go.mod| grep "ginkgo/v2" | awk '{print $2}')
           go install -v github.com/onsi/ginkgo/v2/ginkgo@$version
         working-directory: ./testing/ci
@@ -60,8 +59,7 @@ jobs:
 
       - name: Copy Spark script
         run: |
-          pwd
-          docker compose cp ../../testing/ci/SHELL/quickstart/hudi/spark_shell.scala spark-hudi:/spark/
+          docker compose cp ../../../testing/ci/SHELL/quickstart/hudi/spark_shell.scala spark-hudi:/spark/
         working-directory: demo/documentation-samples/hudi
 
       - name: Run Spark job
