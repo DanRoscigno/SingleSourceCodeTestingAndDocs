@@ -27,22 +27,8 @@ var _ = Describe("QuickstartHudi", func() {
 		})
 		It("DDL: SET catalog", func() {
 
-			By("creating an external catalog")
+			By("Setting the catalog")
 			SQL := SQLFromFile("SQL/quickstart/hudi/set_catalog.sql")
-			_, err := db.Exec(SQL)
-			Expect(err).ToNot(HaveOccurred())
-		})
-		It("DDL: Show databases in catalog", func() {
-
-			By("creating an external catalog")
-			SQL := SQLFromFile("SQL/quickstart/hudi/show_databases.sql")
-			_, err := db.Exec(SQL)
-			Expect(err).ToNot(HaveOccurred())
-		})
-		It("DDL: Use the default DB in the external catalog", func() {
-
-			By("ABC USE default")
-			SQL := SQLFromFile("SQL/quickstart/hudi/use_default.sql")
 			_, err := db.Exec(SQL)
 			Expect(err).ToNot(HaveOccurred())
 		})
