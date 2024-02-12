@@ -1,1 +1,1 @@
-USE default;
+USE default -A;
