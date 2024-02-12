@@ -19,12 +19,36 @@ var _ = Describe("QuickstartHudi", func() {
 		AfterAll(func() {
 		})
 
-		It("DDL: Setup quickstart DB", func() {
-			By("creating a database")
-			SQL := SQLFromFile("SQL/quickstart/hudi/quickstart_DB.sql")
+		It("SQL: Work with Hudi", func() {
+			By("creating an external catalog")
+			SQL := SQLFromFile("SQL/quickstart/hudi/create_catalog.sql")
+			_, err := db.Exec(SQL)
+			Expect(err).ToNot(HaveOccurred())
+
+			By("creating an external catalog")
+			SQL := SQLFromFile("SQL/quickstart/hudi/set_catalog.sql")
+			_, err := db.Exec(SQL)
+			Expect(err).ToNot(HaveOccurred())
+
+			By("creating an external catalog")
+			SQL := SQLFromFile("SQL/quickstart/hudi/show_databases.sql")
+			_, err := db.Exec(SQL)
+			Expect(err).ToNot(HaveOccurred())
+
+			By("creating an external catalog")
+			SQL := SQLFromFile("SQL/quickstart/hudi/use_default.sql")
+			_, err := db.Exec(SQL)
+			Expect(err).ToNot(HaveOccurred())
+
+			By("creating an external catalog")
+			SQL := SQLFromFile("SQL/quickstart/hudi/show_tables.sql")
+			_, err := db.Exec(SQL)
+			Expect(err).ToNot(HaveOccurred())
+
+			By("creating an external catalog")
+			SQL := SQLFromFile("SQL/quickstart/hudi/select.sql")
 			_, err := db.Exec(SQL)
 			Expect(err).ToNot(HaveOccurred())
 		})
-
 	})
 })

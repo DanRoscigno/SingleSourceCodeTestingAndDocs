@@ -12,13 +12,3 @@ PROPERTIES
     "aws.s3.enable_path_style_access" = "true",
     "aws.s3.endpoint" = "http://minio:9000"
 );
-
-SET CATALOG hudi_catalog_hms;
-
-SHOW DATABASES;
-
-USE default;
-
-SHOW tables;
-
-SELECT * from hudi_coders_hive\G
