@@ -1,0 +1,74 @@
+name: Test with allin1
+
+on:
+  schedule:
+    - cron: "5 9 * * 1"
+  push:
+    branches: [ main ]
+    paths:
+      - 'ci/**/quickstart/hudi/*'
+      - '.github/workflows/test_with_hudi.yml'
+      - 'quickstart_hudi_test.go'
+      - 'helper.go'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'ci/**/quickstart/hudi/*'
+      - '.github/workflows/test_with_hudi.yml'
+      - 'quickstart_hudi_test.go'
+      - 'helper.go'
+
+jobs:
+  build:
+
+    name: Build and test
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repo as this CI needs:
+      # - the compose file for StarRocks and Ginkgo/Gomega
+      - name: Checkout Test repo
+        uses: actions/checkout@v4
+        with:
+          path: testing
+
+      - name: Checkout Demo repo
+        uses: actions/checkout@v4
+        with:
+          repository: StarRocks/demo
+          path: demo
+
+      - name: Set up Golang
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: 'testing/ci/go.mod'
+
+      - name: Install ginkgo
+        run: |
+          version=$(cat go.mod| grep "ginkgo/v2" | awk '{print $2}')
+          go install -v github.com/onsi/ginkgo/v2/ginkgo@$version
+        working-directory: ./testing/ci
+
+      - name: Start Hudi, StarRocks, and MinIO
+        run: docker compose up --detach --wait --wait-timeout 60
+        working-directory: demo/documentation-samples/hudi
+
+      - name: Create bucket
+        run: docker compose exec mc mc mb huditest
+        working-directory: demo/documentation-samples/hudi
+
+      - name: Copy Spark script
+        run: docker compose cp ../../testing/ci/SHELL/quickstart/hudi/spark_shell.scala spark-hudi:/spark/
+        working-directory: demo/documentation-samples/hudi
+
+      - name: Run Spark job
+        run: docker compose exec spark-hudi spark-shell -i /spark/
+        working-directory: demo/documentation-samples/hudi
+
+      # Any tests that will run against the StarRocks env would be 
+      # launched in steps like this one. Make sure to reset the 
+      # StarRocks environment after each run (remove any tables
+      # and databases created, and reset any settings to the default)
+      #
+      # The ginkgo command uses `--focus-file` to run only the one test
+      # file.
