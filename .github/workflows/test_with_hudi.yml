@@ -63,7 +63,7 @@ jobs:
         working-directory: demo/documentation-samples/hudi
 
       - name: Run Spark job
-        run: docker compose exec spark-hudi spark-shell -i /spark/
+        run: docker compose exec spark-hudi spark-shell -i /spark/spark_shell.scala
         working-directory: demo/documentation-samples/hudi
 
       # Any tests that will run against the StarRocks env would be 
