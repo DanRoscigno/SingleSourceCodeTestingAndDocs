@@ -20,6 +20,7 @@ val rowData= Seq(Row("Java", "20000", "a"),
 
 val df = spark.createDataFrame(rowData,schema)
 
+val databaseName = "hudi_sample"
 val tableName = "hudi_coders_hive"
 val basePath = "s3a://huditest/hudi_coders"
 
@@ -31,8 +32,8 @@ df.write.format("hudi").
   option("hoodie.datasource.write.hive_style_partitioning", "true").
   option("hoodie.datasource.hive_sync.enable", "true").
   option("hoodie.datasource.hive_sync.mode", "hms").
-  option("hoodie.datasource.hive_sync.database", "default").
-  option("hoodie.datasource.hive_sync.table", "hudi_coders_hive").
+  option("hoodie.datasource.hive_sync.database", databaseName).
+  option("hoodie.datasource.hive_sync.table", tableName).
   option("hoodie.datasource.hive_sync.partition_fields", "language").
   option("hoodie.datasource.hive_sync.partition_extractor_class", "org.apache.hudi.hive.MultiPartKeysValueExtractor").
   option("hoodie.datasource.hive_sync.metastore.uris", "thrift://hive-metastore:9083").
