@@ -41,7 +41,7 @@ var _ = Describe("QuickstartHudi", func() {
 		})
 		It("DDL: Use the default DB in the external catalog", func() {
 
-			By("USE default")
+			By("ABC USE default")
 			SQL := SQLFromFile("SQL/quickstart/hudi/use_default.sql")
 			_, err := db.Exec(SQL)
 			Expect(err).ToNot(HaveOccurred())
