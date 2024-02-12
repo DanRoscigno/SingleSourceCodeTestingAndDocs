@@ -19,33 +19,43 @@ var _ = Describe("QuickstartHudi", func() {
 		AfterAll(func() {
 		})
 
-		It("SQL: Work with Hudi", func() {
+		It("DDL: External Catalog", func() {
 			By("creating an external catalog")
 			SQL := SQLFromFile("SQL/quickstart/hudi/create_catalog.sql")
 			_, err := db.Exec(SQL)
 			Expect(err).ToNot(HaveOccurred())
+		})
+		It("DDL: SET catalog", func() {
 
 			By("creating an external catalog")
 			SQL = SQLFromFile("SQL/quickstart/hudi/set_catalog.sql")
 			_, err = db.Exec(SQL)
 			Expect(err).ToNot(HaveOccurred())
+		})
+		It("DDL: Show databases in catalog", func() {
 
 			By("creating an external catalog")
 			SQL = SQLFromFile("SQL/quickstart/hudi/show_databases.sql")
 			_, err = db.Exec(SQL)
 			Expect(err).ToNot(HaveOccurred())
+		})
+		It("DDL: Use the default DB in the external catalog", func() {
 
-			By("creating an external catalog")
+			By("USE default")
 			SQL = SQLFromFile("SQL/quickstart/hudi/use_default.sql")
 			_, err = db.Exec(SQL)
 			Expect(err).ToNot(HaveOccurred())
+		})
+		It("SQL: SHOW TABLES", func() {
 
-			By("creating an external catalog")
+			By("SHOW TABLES")
 			SQL = SQLFromFile("SQL/quickstart/hudi/show_tables.sql")
 			_, err = db.Exec(SQL)
 			Expect(err).ToNot(HaveOccurred())
+		})
+		It("SQL: SELECT FROM the Hudi table", func() {
 
-			By("creating an external catalog")
+			By("SELECT")
 			SQL = SQLFromFile("SQL/quickstart/hudi/select.sql")
 			_, err = db.Exec(SQL)
 			Expect(err).ToNot(HaveOccurred())
