@@ -1,4 +1,4 @@
-name: Test the docs
+name: Test with one FE and one BE
 
 on:
   schedule:
@@ -10,9 +10,9 @@ on:
   pull_request:
     branches: [ main ]
     paths:
-      - 'ci/**/*'
-      - '.github/workflows/test_the_docs.yml'
-      - 'docker-compose.yml'
+      - 'ci/docs_test.go'
+      - 'ci/helper.go'
+      - '.github/workflows/test_with_oneFE_oneBE.yml'
 
 jobs:
   build:
