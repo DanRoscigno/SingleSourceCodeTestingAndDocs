@@ -24,19 +24,20 @@ var _ = Describe("QuickstartHudi", func() {
 			SQL := SQLFromFile("SQL/quickstart/hudi/create_catalog.sql")
 			_, err := db.Exec(SQL)
 			Expect(err).ToNot(HaveOccurred())
-		})
-		It("DDL: SET catalog", func() {
 
 			By("Setting the catalog")
-			SQL := SQLFromFile("SQL/quickstart/hudi/set_catalog.sql")
-			_, err := db.Exec(SQL)
+			SQL = SQLFromFile("SQL/quickstart/hudi/set_catalog.sql")
+			_, err = db.Exec(SQL)
 			Expect(err).ToNot(HaveOccurred())
-		})
-		It("SQL: SHOW TABLES", func() {
+
+			By("USEing the database")
+			SQL = SQLFromFile("SQL/quickstart/hudi/use_database.sql")
+			_, err = db.Exec(SQL)
+			Expect(err).ToNot(HaveOccurred())
 
 			By("SHOW TABLES")
-			SQL := SQLFromFile("SQL/quickstart/hudi/show_tables.sql")
-			_, err := db.Exec(SQL)
+			SQL = SQLFromFile("SQL/quickstart/hudi/show_tables.sql")
+			_, err = db.Exec(SQL)
 			Expect(err).ToNot(HaveOccurred())
 		})
 		It("SQL: SELECT FROM the Hudi table", func() {

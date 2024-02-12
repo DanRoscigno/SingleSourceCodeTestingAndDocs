@@ -1,1 +1,1 @@
-set catalog hudi_catalog_hms; use hudi_sample;
+SET CATALOG hudi_catalog_hms;
