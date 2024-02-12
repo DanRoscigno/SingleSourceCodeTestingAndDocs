@@ -73,3 +73,8 @@ jobs:
       #
       # The ginkgo command uses `--focus-file` to run only the one test
       # file.
+      - name: Test; Hudi SQL test
+        if: always()
+        env:
+        run: ginkgo -v --focus-file=./quickstart_hudi_test.go
+        working-directory: testing/ci
