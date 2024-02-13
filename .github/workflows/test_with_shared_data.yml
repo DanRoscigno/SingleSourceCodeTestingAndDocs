@@ -1,0 +1,70 @@
+name: Test with Shared Data
+
+on:
+  schedule:
+    - cron: "5 9 * * 1"
+  push:
+    branches: [ main ]
+    paths:
+      - 'ci/**/quickstart/shared_data/*'
+      - '.github/workflows/test_with_shared_data.yml'
+      - 'quickstart_shared_data_test.go'
+      - 'helper.go'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'ci/**/quickstart/shared_data/*'
+      - '.github/workflows/test_with_shared_data.yml'
+      - 'quickstart_shared_data_test.go'
+      - 'helper.go'
+
+jobs:
+  build:
+
+    name: Build and test
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repo as this CI needs:
+      # - the compose file for StarRocks and Ginkgo/Gomega
+      #- name: Checkout Test repo
+        uses: actions/checkout@v4
+          #with:
+          #path: testing
+
+          #- name: Checkout Demo repo
+          #uses: actions/checkout@v4
+          #with:
+          #repository: StarRocks/demo
+          #path: demo
+
+          #- name: Set up Golang
+          #uses: actions/setup-go@v5
+          #with:
+          #go-version-file: 'testing/ci/go.mod'
+
+          #- name: Install ginkgo
+          #run: |
+          #version=$(cat go.mod| grep "ginkgo/v2" | awk '{print $2}')
+          #go install -v github.com/onsi/ginkgo/v2/ginkgo@$version
+          #working-directory: ./testing/ci
+
+      - name: Start StarRocks and MinIO
+        run: |
+          curl -o shared_data-compose.yml \
+            https://raw.githubusercontent.com/StarRocks/demo/master/documentation-samples/quickstart/docker-compose.yml
+          docker compose up \
+            -f shared_data-compose.yml \
+            -f test-harness-docker-compose.yml \
+            --detach --wait --wait-timeout 60
+          #working-directory: demo/documentation-samples/quickstart
+
+      # Any tests that will run against the StarRocks env would be 
+      # launched in steps like this one. Make sure to reset the 
+      # StarRocks environment after each run (remove any tables
+      # and databases created, and reset any settings to the default)
+      #
+      # The ginkgo command uses `--focus-file` to run only the one test
+      # file.
+      - name: Test; Shared Data SQL test
+        run: docker compose -f test-harness-docker-compose.yml exec test-harness ginkgo -v --focus-file=./quickstart_shared_data_test.go
