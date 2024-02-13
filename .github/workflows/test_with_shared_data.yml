@@ -60,7 +60,7 @@ jobs:
           docker compose \
             -f shared_data-compose.yml \
             -f test-harness-docker-compose.yml \
-            up --detach --wait --wait-timeout 60
+            up --detach --wait --wait-timeout 100
           #working-directory: demo/documentation-samples/quickstart
 
       # Any tests that will run against the StarRocks env would be 
