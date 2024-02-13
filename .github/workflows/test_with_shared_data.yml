@@ -71,4 +71,5 @@ jobs:
       # The ginkgo command uses `--focus-file` to run only the one test
       # file.
       - name: Test; Shared Data SQL test
+        if: always()
         run: docker compose -f test-harness-docker-compose.yml exec test-harness ginkgo -v --focus-file=./quickstart_shared_data_test.go
