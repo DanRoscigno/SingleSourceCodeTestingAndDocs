@@ -75,5 +75,7 @@ jobs:
       # file.
       - name: Test; Hudi SQL test
         if: always()
+        env:
+          SR_FE_HOST: 'localhost'
         run: ginkgo -v --focus-file=./quickstart_hudi_test.go
         working-directory: testing/ci
