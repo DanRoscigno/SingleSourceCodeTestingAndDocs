@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 cd /tmp/
 curl --silent --no-buffer \
 -o 72505394728.csv \
