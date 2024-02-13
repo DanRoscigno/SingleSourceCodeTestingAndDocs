@@ -37,13 +37,14 @@ jobs:
         run: |
           curl -o shared_data-compose.yml \
             https://raw.githubusercontent.com/StarRocks/demo/master/documentation-samples/quickstart/docker-compose.yml
-            docker compose -f shared_data-compose.yml -f test-harness-docker-compose.yml build
+          docker compose -f shared_data-compose.yml -f test-harness-docker-compose.yml -f minio-fix-compose.yml build
 
       - name: Start StarRocks and MinIO
         run: |
           docker compose \
             -f shared_data-compose.yml \
             -f test-harness-docker-compose.yml \
+            -f minio-fix-compose.yml \
             up --detach --wait --wait-timeout 100
 
       # Any tests that will run against the StarRocks env would be 
@@ -55,4 +56,4 @@ jobs:
       # file.
       - name: Test; Shared Data SQL test
         if: always()
-        run: docker compose -f shared_data-compose.yml -f test-harness-docker-compose.yml exec -e SR_FE_HOST='starrocks-fe' test-harness ginkgo -v --focus-file=./quickstart_shared_data_test.go
+        run: docker compose -f shared_data-compose.yml -f test-harness-docker-compose.yml -f minio-fix-compose.yml exec -e SR_FE_HOST='starrocks-fe' test-harness ginkgo -v --focus-file=./quickstart_shared_data_test.go

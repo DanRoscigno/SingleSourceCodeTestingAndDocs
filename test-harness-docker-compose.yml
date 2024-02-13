@@ -11,23 +11,3 @@ services:
     build:
       context: ci
       dockerfile: ginkgo.Dockerfile
-
-  minio_mc:
-    image: minio/mc:latest
-    entrypoint:
-      - sh
-      - -c
-      - |
-        until mc ls minio > /dev/null 2>&1; do
-          sleep 0.5
-        done
-
-        mc alias set myminio http://minio:9000 miniouser miniopassword
-        mc admin user svcacct add --access-key AAAAAAAAAAAAAAAAAAAA \
-        --secret-key BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB \
-        myminio \
-        miniouser
-    command: sh
-    tty: true
-    depends_on:
-      - minio
