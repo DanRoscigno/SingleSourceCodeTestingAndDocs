@@ -1,4 +1,4 @@
-name: Test the docs
+name: Test with one FE and one BE
 
 on: 
   workflow_dispatch:
