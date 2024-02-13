@@ -34,34 +34,17 @@ jobs:
 
       # Build the test harness container (Golnag/Ginkgo/Gomega)
       - name: Build Ginkgo container
-        run: docker compose -f shared_data-compose.yml -f test-harness-docker-compose.yml build
-
-          #- name: Checkout Demo repo
-          #uses: actions/checkout@v4
-          #with:
-          #repository: StarRocks/demo
-          #path: demo
-
-          #- name: Set up Golang
-          #uses: actions/setup-go@v5
-          #with:
-          #go-version-file: 'testing/ci/go.mod'
-
-          #- name: Install ginkgo
-          #run: |
-          #version=$(cat go.mod| grep "ginkgo/v2" | awk '{print $2}')
-          #go install -v github.com/onsi/ginkgo/v2/ginkgo@$version
-          #working-directory: ./testing/ci
-
-      - name: Start StarRocks and MinIO
         run: |
           curl -o shared_data-compose.yml \
             https://raw.githubusercontent.com/StarRocks/demo/master/documentation-samples/quickstart/docker-compose.yml
+            docker compose -f shared_data-compose.yml -f test-harness-docker-compose.yml build
+
+      - name: Start StarRocks and MinIO
+        run: |
           docker compose \
             -f shared_data-compose.yml \
             -f test-harness-docker-compose.yml \
             up --detach --wait --wait-timeout 100
-          #working-directory: demo/documentation-samples/quickstart
 
       # Any tests that will run against the StarRocks env would be 
       # launched in steps like this one. Make sure to reset the 
