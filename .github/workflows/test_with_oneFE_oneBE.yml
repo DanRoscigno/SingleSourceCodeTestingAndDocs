@@ -1,18 +1,20 @@
 name: Test with one FE and one BE
 
-on:
-  schedule:
-    - cron: "5 9 * * 1"
-  push:
-    branches: [ main ]
-    paths:
-      - 'ci/**/*'
-  pull_request:
-    branches: [ main ]
-    paths:
-      - 'ci/docs_test.go'
-      - 'ci/helper.go'
-      - '.github/workflows/test_with_oneFE_oneBE.yml'
+on: 
+  workflow_dispatch:
+  #on:
+  #schedule:
+  #- cron: "5 9 * * 1"
+  #push:
+  #branches: [ main ]
+  #paths:
+  #- 'ci/**/*'
+  #pull_request:
+  #branches: [ main ]
+  #paths:
+  #- 'ci/**/*'
+  #- '.github/workflows/test_the_docs.yml'
+  #- 'docker-compose.yml'
 
 jobs:
   build:

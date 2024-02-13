@@ -59,6 +59,7 @@ jobs:
         env:
           AWS_S3_ACCESS_KEY: ${{ secrets.AWS_S3_ACCESS_KEY }}
           AWS_S3_SECRET_KEY: ${{ secrets.AWS_S3_SECRET_KEY }}
+          SR_FE_HOST: 'localhost'
         run: ginkgo -v --focus-file=./quickstart_basic_test.go
         working-directory: ./ci
 
