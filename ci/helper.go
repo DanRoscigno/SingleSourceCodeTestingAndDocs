@@ -12,11 +12,12 @@ import (
 var db *sql.DB
 
 func GetDSNConnection() (*sql.DB, error) {
+    SR_FE_HOST_PORT := os.Getenv("SR_FE_HOST_PORT")
     cfg := mysql.Config{
 	User:   "root",
 	Passwd: "",
 	Net:    "tcp",
-	Addr:   "localhost:9030",
+	Addr:   SR_FE_HOST_PORT,
 	AllowNativePasswords: true,
     }
     return sql.Open("mysql", cfg.FormatDSN())
