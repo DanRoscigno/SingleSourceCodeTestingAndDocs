@@ -57,10 +57,10 @@ jobs:
         run: |
           curl -o shared_data-compose.yml \
             https://raw.githubusercontent.com/StarRocks/demo/master/documentation-samples/quickstart/docker-compose.yml
-          docker compose up \
+          docker compose \
             -f shared_data-compose.yml \
             -f test-harness-docker-compose.yml \
-            --detach --wait --wait-timeout 60
+            up --detach --wait --wait-timeout 60
           #working-directory: demo/documentation-samples/quickstart
 
       # Any tests that will run against the StarRocks env would be 
