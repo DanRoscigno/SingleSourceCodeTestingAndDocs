@@ -72,4 +72,4 @@ jobs:
       # file.
       - name: Test; Shared Data SQL test
         if: always()
-        run: docker compose -f test-harness-docker-compose.yml exec -e SR_FE_HOST_PORT='starrocks-fe:9030' test-harness ginkgo -v --focus-file=./quickstart_shared_data_test.go
+        run: docker compose -f test-harness-docker-compose.yml exec -e SR_FE_HOST='starrocks-fe' test-harness ginkgo -v --focus-file=./quickstart_shared_data_test.go

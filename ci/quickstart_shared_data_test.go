@@ -49,16 +49,21 @@ var _ = Describe("QuickstartSharedData", func() {
 			SQL := SQLFromFile("SQL/quickstart/basic/NYPD_table.sql")
 			_, err := db.Exec(SQL)
 			Expect(err).ToNot(HaveOccurred())
+		})
+		
+		It("DDL: Create quickstart tables", func() {
 
 			By("creating the weather data table")
-			SQL = SQLFromFile("SQL/quickstart/basic/Weather_table.sql")
-			_, err = db.Exec(SQL)
+			SQL := SQLFromFile("SQL/quickstart/basic/Weather_table.sql")
+			_, err := db.Exec(SQL)
 			Expect(err).ToNot(HaveOccurred())
 		})
 
 		It("should be able to load data via stream load", func() {
 			By("uploading the NYPD crash data")
 			LongRunningScript("SHELL/quickstart/basic/NYPD_stream_load")
+		})
+		It("should be able to load data via stream load", func() {
 
 			By("uploading the NOAA weather data")
 			LongRunningScript("SHELL/quickstart/basic/Weather_stream_load")
