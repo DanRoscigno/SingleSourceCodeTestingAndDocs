@@ -27,10 +27,14 @@ jobs:
     steps:
       # Checkout the repo as this CI needs:
       # - the compose file for StarRocks and Ginkgo/Gomega
-      #- name: Checkout Test repo
+      - name: Checkout Test repo
         uses: actions/checkout@v4
           #with:
           #path: testing
+
+      # Build the test harness container (Golnag/Ginkgo/Gomega)
+      - name: Build Ginkgo container
+        run: docker compose -f test-harness-docker-compose.yml build
 
           #- name: Checkout Demo repo
           #uses: actions/checkout@v4
