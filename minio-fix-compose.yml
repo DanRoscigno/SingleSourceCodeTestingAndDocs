@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+  # This file is a fix for the minio mc container so that is runs
+  # properly with the detatch and wait docker compose command
+  # used for the tests. Maybe we should fix this in the demo
+  # instead, but not today.
+
+  minio_mc:
+    image: minio/mc:latest
+    entrypoint:
+      - sh
+      - -c
+      - |
+        until mc ls minio > /dev/null 2>&1; do
+          sleep 0.5
+        done
+
+        mc alias set myminio http://minio:9000 miniouser miniopassword
+        mc admin user svcacct add --access-key AAAAAAAAAAAAAAAAAAAA \
+        --secret-key BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB \
+        myminio \
+        miniouser
+    command: sh
+    tty: true
+    depends_on:
+      - minio
