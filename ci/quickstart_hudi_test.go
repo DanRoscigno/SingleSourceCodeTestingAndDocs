@@ -57,7 +57,7 @@ var _ = Describe("QuickstartHudi", func() {
 				Expect(err).NotTo(HaveOccurred())
 				records = append(records, language + "-" + users)
 			}
-			Expect(records).To(ContainElement("Pythin-100000"))
+			Expect(records).To(ContainElement("Python-100000"))
 			Expect(records).To(ContainElement("Java-20000"))
 			Expect(records).To(ContainElement("Scala-3000"))
 		})
