@@ -86,15 +86,14 @@ var _ = Describe("QuickstartBasic", func() {
 			for rows.Next() {
 				var Crashes string
 				var Temp_F string
-				var Visibility string
 				var Precipitation string
 				var Hour string
-				err := rows.Scan(&Crashes, &Temp_F, &Visibility, &Precipitation, &Hour)
+				err := rows.Scan(&Crashes, &Temp_F, &Precipitation, &Hour)
 				Expect(err).NotTo(HaveOccurred())
-				records = append(records, Crashes+"-"+Temp_F+"-"+Visibility+"-"+Precipitation+"-"+Hour)
+				records = append(records, Crashes+"-"+Temp_F+"-"+Precipitation+"-"+Hour)
 			}
-			Expect(records).To(ContainElement("192-34-1.5-0.09-18 Jan 2015 08:00"))
-			Expect(records).To(ContainElement("138-33.5-5-0.02-18 Jan 2015 07:00"))
+			Expect(records).To(ContainElement("192-34-0.09-18 Jan 2015 08:00"))
+			Expect(records).To(ContainElement("138-33.5-0.02-18 Jan 2015 07:00"))
 		})
 	})
 })
