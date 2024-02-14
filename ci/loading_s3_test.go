@@ -52,9 +52,25 @@ var _ = Describe("Docs", func() {
 			Expect(err).ToNot(HaveOccurred())
 
 			By("Describing the table")
-			SQL = SQLFromFile("SQL/loading/cloud/s3/5-describe.sql")
-			_, err = db.Exec(SQL)
-			Expect(err).ToNot(HaveOccurred())
+			//SQL = SQLFromFile("SQL/loading/cloud/s3/5-describe.sql")
+			SQL = `select COLUMN_NAME, DATA_TYPE from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME = 'user_behavior_inferred';`
+			rows, err := db.Query(SQL)
+			Expect(err).NotTo(HaveOccurred())
+			defer rows.Close()
+
+			fieldTypes := []string{}
+			for rows.Next() {
+				var COLUMN_NAME string
+				var DATA_TYPE string
+				err := rows.Scan(&COLUMN_NAME, &DATA_TYPE)
+				Expect(err).NotTo(HaveOccurred())
+				fieldTypes = append(fieldTypes, COLUMN_NAME + "-" + DATA_TYPE)
+			}
+			Expect(fieldTypes).To(ContainElement("UserID-bigint"))
+			Expect(fieldTypes).To(ContainElement("ItemID-bigint"))
+			Expect(fieldTypes).To(ContainElement("CategoryID-bigint"))
+			Expect(fieldTypes).To(ContainElement("BehaviorType-varbinary"))
+			Expect(fieldTypes).To(ContainElement("Timestamp-varbinary"))
 
 			By("Selecting from the table")
 			SQL = SQLFromFile("SQL/loading/cloud/s3/6-select.sql")
