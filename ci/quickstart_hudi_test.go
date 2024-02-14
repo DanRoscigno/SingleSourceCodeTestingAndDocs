@@ -44,7 +44,7 @@ var _ = Describe("QuickstartHudi", func() {
 
 			By("Selecting from the table")
 			//SQL := SQLFromFile("SQL/quickstart/hudi/select.sql")
-			SQL = `SELECT language, users from hudi_coders_hive;`
+			SQL := `SELECT language, users from hudi_coders_hive;`
 			rows, err := db.Query(SQL)
 			Expect(err).NotTo(HaveOccurred())
 			defer rows.Close()
