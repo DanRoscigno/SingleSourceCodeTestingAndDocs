@@ -42,10 +42,24 @@ var _ = Describe("QuickstartHudi", func() {
 		})
 		It("SQL: SELECT FROM the Hudi table", func() {
 
-			By("SELECT")
-			SQL := SQLFromFile("SQL/quickstart/hudi/select.sql")
-			_, err := db.Exec(SQL)
-			Expect(err).ToNot(HaveOccurred())
+			By("Selecting from the table")
+			//SQL := SQLFromFile("SQL/quickstart/hudi/select.sql")
+			SQL = `SELECT language, users from hudi_coders_hive;`
+			rows, err := db.Query(SQL)
+			Expect(err).NotTo(HaveOccurred())
+			defer rows.Close()
+
+			records := []string{}
+			for rows.Next() {
+				var language string
+				var users string
+				err := rows.Scan(&language, &users)
+				Expect(err).NotTo(HaveOccurred())
+				records = append(records, language + "-" + users)
+			}
+			Expect(records).To(ContainElement("Pythin-100000"))
+			Expect(records).To(ContainElement("Java-20000"))
+			Expect(records).To(ContainElement("Scala-3000"))
 		})
 	})
 })
