@@ -1,6 +1,7 @@
 name: Test with allin1
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: "5 9 * * 1"
   push:

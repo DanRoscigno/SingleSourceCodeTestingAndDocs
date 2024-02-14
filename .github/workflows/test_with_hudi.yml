@@ -1,6 +1,7 @@
 name: Test with Hudi
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: "5 9 * * 1"
   push:
