@@ -9,8 +9,8 @@ on:
     paths:
       - 'ci/**/quickstart/hudi/*'
       - '.github/workflows/test_with_hudi.yml'
-      - 'quickstart_hudi_test.go'
-      - 'helper.go'
+      - 'ci/quickstart_hudi_test.go'
+      - 'ci/helper.go'
   pull_request:
     branches: [ main ]
     paths:
