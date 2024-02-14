@@ -41,7 +41,7 @@ jobs:
       #
       # The ginkgo command uses `--focus-file` to run only the one test
       # file.
-      - name: Test; Basic Quick Start
+      - name: Test; Loading from S3
         if: always()
         run: |
           docker compose -f general-compose.yml exec \
