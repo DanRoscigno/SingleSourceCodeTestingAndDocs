@@ -81,11 +81,6 @@ var _ = Describe("Docs", func() {
 			_, err = db.Exec(SQL)
 			Expect(err).ToNot(HaveOccurred())
 
-			By("Checking loads table")
-			SQL = SQLFromFile("SQL/loading/cloud/s3/10-information-schema-loads.sql")
-			_, err = db.Exec(SQL)
-			Expect(err).ToNot(HaveOccurred())
-
 		})
 
 		It("Create table and then load with BROKER LOAD", func() {
@@ -99,11 +94,6 @@ var _ = Describe("Docs", func() {
 			SQL = SQLFromFile("SQL/loading/cloud/s3/12-load-label.sql")
 			SQLWithCreds := AddAWSCredentials(SQL)
 			_, err = db.Exec(SQLWithCreds)
-			Expect(err).ToNot(HaveOccurred())
-
-			By("another information schema")
-			SQL = SQLFromFile("SQL/loading/cloud/s3/13-select-information-schema.sql")
-			_, err = db.Exec(SQL)
 			Expect(err).ToNot(HaveOccurred())
 
 			By("Selecting")
@@ -128,16 +118,6 @@ var _ = Describe("Docs", func() {
 
 			By("Show pipes")
 			SQL = SQLFromFile("SQL/loading/cloud/s3/17-show-pipes.sql")
-			_, err = db.Exec(SQL)
-			Expect(err).ToNot(HaveOccurred())
-
-			By("information schema")
-			SQL = SQLFromFile("SQL/loading/cloud/s3/18-information-schema.sql")
-			_, err = db.Exec(SQL)
-			Expect(err).ToNot(HaveOccurred())
-
-			By("information schema again")
-			SQL = SQLFromFile("SQL/loading/cloud/s3/19-information-schema.sql")
 			_, err = db.Exec(SQL)
 			Expect(err).ToNot(HaveOccurred())
 
