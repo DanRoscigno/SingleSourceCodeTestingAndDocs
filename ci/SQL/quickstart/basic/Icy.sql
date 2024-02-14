@@ -9,4 +9,4 @@ ON date_trunc("hour", c.CRASH_DATE)=date_trunc("hour", w.DATE)
 WHERE w.HourlyDryBulbTemperature BETWEEN 0.0 AND 40.5 
 GROUP BY Hour
 ORDER BY Crashes DESC
-LIMIT 100;
+LIMIT 5;
