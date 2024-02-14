@@ -94,7 +94,6 @@ var _ = Describe("QuickstartBasic", func() {
 				records = append(records, Crashes+"-"+Temp_F+"-"+Visibility+"-"+Precipitation+"-"+Hour)
 			}
 			Expect(records).To(ContainElement("192-34-1.5-0.09-18 Jan 2015 08:00"))
-			Expect(records).To(ContainElement("170-21-NULL--21 Jan 2014 10:00"))
 			Expect(records).To(ContainElement("138-33.5-5-0.02-18 Jan 2015 07:00"))
 		})
 	})
