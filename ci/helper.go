@@ -4,12 +4,15 @@ package docs_test
 import (
     "database/sql"
     "os"
+    "strings"
     "fmt"
     "github.com/go-sql-driver/mysql"
     "os/exec"
     . "github.com/onsi/gomega"
 )
 var db *sql.DB
+var AWS_S3_ACCESS_KEY = os.Getenv("AWS_S3_ACCESS_KEY")
+var AWS_S3_SECRET_KEY = os.Getenv("AWS_S3_SECRET_KEY")
 
 func GetDSNConnection() (*sql.DB, error) {
     SR_FE_HOST := os.Getenv("SR_FE_HOST")
@@ -30,6 +33,14 @@ func SQLFromFile(filename string) string {
 	fmt.Print(err)
     }
     return string(bytes)
+}
+
+func AddAWSCredentials(sql string) string {
+    re := strings.NewReplacer(
+	"AAAAAAAAAAAAAAAAAAAA", AWS_S3_ACCESS_KEY,
+	"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", AWS_S3_SECRET_KEY,
+    )
+    return re.Replace(sql)
 }
 
 func LongRunningScript(filename string) {
