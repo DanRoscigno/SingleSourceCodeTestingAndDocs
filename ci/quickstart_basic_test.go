@@ -83,6 +83,7 @@ var _ = Describe("QuickstartBasic", func() {
 			defer rows.Close()
 
 			records := []string{}
+			fmt.Print("Checking JOIN of Crashes and Weather")
 			for rows.Next() {
 				var Crashes string
 				var Temp_F string
@@ -91,6 +92,7 @@ var _ = Describe("QuickstartBasic", func() {
 				err := rows.Scan(&Crashes, &Temp_F, &Precipitation, &Hour)
 				Expect(err).NotTo(HaveOccurred())
 				records = append(records, Crashes+"-"+Temp_F+"-"+Precipitation+"-"+Hour)
+				fmt.Print(Crashes+"\t"+Temp_F+"\t"+Precipitation+"\t"+Hour)
 			}
 			Expect(records).To(ContainElement("192-34-0.09-18 Jan 2015 08:00"))
 			Expect(records).To(ContainElement("138-33.5-0.02-18 Jan 2015 07:00"))
