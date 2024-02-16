@@ -3,13 +3,8 @@ These queries can be run in your SQL client.
 
 #### How many crashes are there per hour in NYC?
 
-```sql
-SELECT COUNT(*),
-       date_trunc("hour", crashdata.CRASH_DATE) AS Time
-FROM crashdata
-GROUP BY Time
-ORDER BY Time ASC
-LIMIT 200;
+```sql reference title="Crashes per Hour"
+https://github.com/DanRoscigno/SingleSourceCodeTestingAndDocs/blob/385d2ce4e8d1c54bf62c44a517139621842db0bc/ci/SQL/quickstart/basic/CrashesPerHour.sql#L1-L6
 ```
 
 Here is part of the output. Note that I am looking closer at January 6th and 7th as this is Monday and Tuesday of a non-holiday week. Looking at New Years Day is probably not indicative of a normal morning during rush-hour traffic.
@@ -53,13 +48,8 @@ It looks like about 40 accidents on a Monday or Tuesday morning during rush hour
 
 #### What is the average temperature in NYC?
 
-```sql
-SELECT avg(HourlyDryBulbTemperature),
-       date_trunc("hour", weatherdata.DATE) AS Time
-FROM weatherdata
-GROUP BY Time
-ORDER BY Time ASC
-LIMIT 100;
+```sql reference title="Average Temperature"
+https://github.com/DanRoscigno/SingleSourceCodeTestingAndDocs/blob/385d2ce4e8d1c54bf62c44a517139621842db0bc/ci/SQL/quickstart/basic/AverageTemp.sql#L1-L6
 ```
 
 Output:
@@ -84,19 +74,8 @@ Note that this is data from 2014, NYC has not been this cold lately.
 
 Let's look at the number of crashes when visibility is poor (between 0 and 1.0 miles). To answer this question use a JOIN across the two tables on the DATETIME column.
 
-```sql
-SELECT COUNT(DISTINCT c.COLLISION_ID) AS Crashes,
-       truncate(avg(w.HourlyDryBulbTemperature), 1) AS Temp_F,
-       truncate(avg(w.HourlyVisibility), 2) AS Visibility,
-       max(w.HourlyPrecipitation) AS Precipitation,
-       date_format((date_trunc("hour", c.CRASH_DATE)), '%d %b %Y %H:%i') AS Hour
-FROM crashdata c
-LEFT JOIN weatherdata w
-ON date_trunc("hour", c.CRASH_DATE)=date_trunc("hour", w.DATE)
-WHERE w.HourlyVisibility BETWEEN 0.0 AND 1.0
-GROUP BY Hour
-ORDER BY Crashes DESC
-LIMIT 100;
+```sql reference title="Crashes per Hour when visibility is low"
+https://github.com/DanRoscigno/SingleSourceCodeTestingAndDocs/blob/385d2ce4e8d1c54bf62c44a517139621842db0bc/ci/SQL/quickstart/basic/LowVisibility.sql#L1-L12
 ```
 
 The highest number of crashes in a single hour during low visibility is 129. There are multiple things to consider:
@@ -132,19 +111,8 @@ The highest number of crashes in a single hour during low visibility is 129. The
 
 Water vapor can desublimate to ice at 40 degrees F; this query looks at temps between 0 and 40 degrees F.
 
-```sql
-SELECT COUNT(DISTINCT c.COLLISION_ID) AS Crashes,
-       truncate(avg(w.HourlyDryBulbTemperature), 1) AS Temp_F,
-       truncate(avg(w.HourlyVisibility), 2) AS Visibility,
-       max(w.HourlyPrecipitation) AS Precipitation,
-       date_format((date_trunc("hour", c.CRASH_DATE)), '%d %b %Y %H:%i') AS Hour
-FROM crashdata c
-LEFT JOIN weatherdata w
-ON date_trunc("hour", c.CRASH_DATE)=date_trunc("hour", w.DATE)
-WHERE w.HourlyDryBulbTemperature BETWEEN 0.0 AND 40.5 
-GROUP BY Hour
-ORDER BY Crashes DESC
-LIMIT 100;
+```sql reference title="Driving in icy conditions"
+https://github.com/DanRoscigno/SingleSourceCodeTestingAndDocs/blob/385d2ce4e8d1c54bf62c44a517139621842db0bc/ci/SQL/quickstart/basic/Icy.sql#L1-L12
 ```
 
 The results for freezing temperatures suprised me a little, I did not expect too much traffic on a Sunday morning in the city on a cold January day.A quick look at [weather.com](https://weather.com/storms/winter/news/northeast-storm-rain-snow-wind) showed that there was a big storm with many crashes that day, just like what can be seen in the data.
