@@ -85,6 +85,7 @@ var _ = Describe("QuickstartBasic", func() {
 
 			records := []string{}
 			fmt.Println("Checking JOIN of Crashes and Weather")
+			fmt.Println("Crashes\tTemp_F\tPrecipitation\tHour")
 			for rows.Next() {
 				var Crashes string
 				var Temp_F string
