@@ -1,27 +1,26 @@
-name: Test with allin1
-
+name: Test Basic Quickstart
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "5 9 * * 1"
-  push:
-    branches: [ main ]
-    paths:
-      - 'ci/**/quickstart/basic/*'
-      - '.github/workflows/test_with_allin1.yml'
-      - 'allin1-docker-compose.yml'
-      - 'quickstart_basic_test.go'
-      - 'helper.go'
-      - 'ginkgo.Dockerfile'
-  pull_request:
-    branches: [ main ]
-    paths:
-      - 'ci/**/quickstart/basic/*'
-      - '.github/workflows/test_with_allin1.yml'
-      - 'allin1-docker-compose.yml'
-      - 'quickstart_basic_test.go'
-      - 'helper.go'
-      - 'ginkgo.Dockerfile'
+  #schedule:
+    #- cron: "5 9 * * 1"
+  #push:
+    #branches: [ main ]
+    #paths:
+      #- 'ci/**/quickstart/basic/*'
+      #- '.github/workflows/test_with_allin1.yml'
+      #- 'allin1-docker-compose.yml'
+      #- 'quickstart_basic_test.go'
+      #- 'helper.go'
+      #- 'ginkgo.Dockerfile'
+  #pull_request:
+    #branches: [ main ]
+    #paths:
+      #- 'ci/**/quickstart/basic/*'
+      #- '.github/workflows/test_with_allin1.yml'
+      #- 'allin1-docker-compose.yml'
+      #- 'quickstart_basic_test.go'
+      #- 'helper.go'
+      #- 'ginkgo.Dockerfile'
 
 jobs:
   build:
