@@ -17,10 +17,10 @@ var _ = Describe("QuickstartSharedData", func() {
 			// download the crash data in /tmp/ dir
 			// https://stackoverflow.com/questions/16703647/why-does-curl-return-error-23-failed-writing-body
 			By("Downloading the NYPD Crash data")
-			LongRunningScript("SHELL/quickstart/shared_data/NYPD_download")
+			LongRunningScript("SHELL/quickstart/basic/NYPD_download")
 
 			By("Downloading the NOAA weather data")
-			LongRunningScript("SHELL/quickstart/shared_data/Weather_download")
+			LongRunningScript("SHELL/quickstart/basic/Weather_download")
 		})
 
 		AfterAll(func() {
@@ -61,12 +61,12 @@ var _ = Describe("QuickstartSharedData", func() {
 
 		It("should be able to load data via stream load", func() {
 			By("uploading the NYPD crash data")
-			LongRunningScript("SHELL/quickstart/shared_data/NYPD_stream_load")
+			LongRunningScript("SHELL/quickstart/basic/NYPD_stream_load")
 		})
 		It("should be able to load data via stream load", func() {
 
 			By("uploading the NOAA weather data")
-			LongRunningScript("SHELL/quickstart/shared_data/Weather_stream_load")
+			LongRunningScript("SHELL/quickstart/basic/Weather_stream_load")
 		})
 
 		It("should be able to query tables", func() {
