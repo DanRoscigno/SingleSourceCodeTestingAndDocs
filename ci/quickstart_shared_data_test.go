@@ -87,8 +87,25 @@ var _ = Describe("QuickstartSharedData", func() {
 
 			By("JOINing to see impact of icy weather")
 			SQL = SQLFromFile("SQL/quickstart/basic/Icy.sql")
-			_, err = db.Exec(SQL)
-			Expect(err).ToNot(HaveOccurred())
+			rows, err := db.Query(SQL)
+			Expect(err).NotTo(HaveOccurred())
+			defer rows.Close()
+
+			records := []string{}
+			fmt.Println("Checking JOIN of Crashes and Weather")
+			fmt.Println("Crashes\tTemp_F\tPrecipitation\tHour")
+			for rows.Next() {
+				var Crashes string
+				var Temp_F string
+				var Precipitation string
+				var Hour string
+				err := rows.Scan(&Crashes, &Temp_F, &Precipitation, &Hour)
+				Expect(err).NotTo(HaveOccurred())
+				records = append(records, Crashes+"-"+Temp_F+"-"+Precipitation+"-"+Hour)
+				fmt.Println(Crashes+"\t"+Temp_F+"\t"+Precipitation+"\t"+Hour)
+			}
+			Expect(records).To(ContainElement("192-34-0.09-18 Jan 2015 08:00"))
+			Expect(records).To(ContainElement("138-33.5-0.02-18 Jan 2015 07:00"))
 		})
 	})
 })
