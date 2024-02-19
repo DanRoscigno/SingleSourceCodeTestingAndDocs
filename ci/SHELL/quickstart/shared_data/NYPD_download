@@ -1,0 +1,9 @@
+#!/bin/sh
+docker compose \
+	-f shared_data-compose.yml \
+	-f test-harness-docker-compose.yml \
+	-f minio-fix-compose.yml \
+	exec test-harness \
+curl --silent --no-buffer \
+-O \
+https://raw.githubusercontent.com/StarRocks/demo/master/documentation-samples/quickstart/datasets/NYPD_Crash_Data.csv
