@@ -1,8 +1,8 @@
 #!/bin/sh
 docker compose \
-	-f shared_data-compose.yml \
-	-f test-harness-docker-compose.yml \
-	-f minio-fix-compose.yml \
+	-f ../../../../shared_data-compose.yml \
+	-f ../../../../test-harness-docker-compose.yml \
+	-f ../../../../minio-fix-compose.yml \
 	exec test-harness \
 curl --silent --no-buffer \
 -O \
