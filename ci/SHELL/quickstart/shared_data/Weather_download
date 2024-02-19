@@ -1,0 +1,5 @@
+#!/bin/sh
+cd /tmp/
+curl --silent --no-buffer \
+-O \
+https://raw.githubusercontent.com/StarRocks/demo/master/documentation-samples/quickstart/datasets/72505394728.csv
