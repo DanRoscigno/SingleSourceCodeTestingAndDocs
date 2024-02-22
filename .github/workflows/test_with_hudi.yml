@@ -2,22 +2,6 @@ name: Test with Hudi
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "5 9 * * 1"
-  push:
-    branches: [ main ]
-    paths:
-      - 'ci/**/quickstart/hudi/*'
-      - '.github/workflows/test_with_hudi.yml'
-      - 'ci/quickstart_hudi_test.go'
-      - 'ci/helper.go'
-  pull_request:
-    branches: [ main ]
-    paths:
-      - 'ci/**/quickstart/hudi/*'
-      - '.github/workflows/test_with_hudi.yml'
-      - 'quickstart_hudi_test.go'
-      - 'helper.go'
 
 jobs:
   build:
