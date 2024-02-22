@@ -54,7 +54,8 @@ func AddGCSCredentials(sql string) string {
 	re := strings.NewReplacer(
 		"sampledatareader@xxxxx-xxxxxx-000000.iam.gserviceaccount.com", GCS_SERVICE_ACCOUNT_EMAIL,
 		"baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", GCS_SERVICE_ACCOUNT_PRIVATE_KEY_ID,
-		"-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----", decodedKey,
+		"-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----", string(decodedKey),
+		gh repo clone DanRoscigno/SingleSourceCodeTestingAndDocs
 	)
 	return re.Replace(sql)
 }
