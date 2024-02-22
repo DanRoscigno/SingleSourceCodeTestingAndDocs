@@ -24,19 +24,19 @@ var _ = Describe("Docs", func() {
 		})
 
 		AfterAll(func() {
-			//var err error
+			var err error
 
-			//By("DROP table user_behavior_inferred")
-			//_, err = db.Exec(`DROP TABLE IF EXISTS user_behavior_inferred`)
-			//Expect(err).ToNot(HaveOccurred())
+			By("DROP table user_behavior_inferred")
+			_, err = db.Exec(`DROP TABLE IF EXISTS user_behavior_inferred`)
+			Expect(err).ToNot(HaveOccurred())
 
-			//By("DROP DB DocsQA")
-			//_, err = db.Exec(`DROP DATABASE IF EXISTS mydatabase`)
-			//Expect(err).ToNot(HaveOccurred())
+			By("DROP DB DocsQA")
+			_, err = db.Exec(`DROP DATABASE IF EXISTS mydatabase`)
+			Expect(err).ToNot(HaveOccurred())
 
-			//By("Reset settings")
-			//_, err = db.Exec(`ADMIN SET FRONTEND CONFIG ('default_replication_num' = "3");`)
-			//Expect(err).ToNot(HaveOccurred())
+			By("Reset settings")
+			_, err = db.Exec(`ADMIN SET FRONTEND CONFIG ('default_replication_num' = "3");`)
+			Expect(err).ToNot(HaveOccurred())
 		})
 
 		It("Use the FILES table fxn", func() {
