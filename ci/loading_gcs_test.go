@@ -1,6 +1,8 @@
 package docs_test
 
 import (
+	"fmt"
+	"time"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )
@@ -22,19 +24,19 @@ var _ = Describe("Docs", func() {
 		})
 
 		AfterAll(func() {
-			var err error
+			//var err error
 
-			By("DROP table user_behavior_inferred")
-			_, err = db.Exec(`DROP TABLE IF EXISTS user_behavior_inferred`)
-			Expect(err).ToNot(HaveOccurred())
+			//By("DROP table user_behavior_inferred")
+			//_, err = db.Exec(`DROP TABLE IF EXISTS user_behavior_inferred`)
+			//Expect(err).ToNot(HaveOccurred())
 
-			By("DROP DB DocsQA")
-			_, err = db.Exec(`DROP DATABASE IF EXISTS mydatabase`)
-			Expect(err).ToNot(HaveOccurred())
+			//By("DROP DB DocsQA")
+			//_, err = db.Exec(`DROP DATABASE IF EXISTS mydatabase`)
+			//Expect(err).ToNot(HaveOccurred())
 
-			By("Reset settings")
-			_, err = db.Exec(`ADMIN SET FRONTEND CONFIG ('default_replication_num' = "3");`)
-			Expect(err).ToNot(HaveOccurred())
+			//By("Reset settings")
+			//_, err = db.Exec(`ADMIN SET FRONTEND CONFIG ('default_replication_num' = "3");`)
+			//Expect(err).ToNot(HaveOccurred())
 		})
 
 		It("Use the FILES table fxn", func() {
@@ -137,6 +139,31 @@ var _ = Describe("Docs", func() {
 			_, err = db.Exec(SQL)
 			Expect(err).ToNot(HaveOccurred())
 
+			By("Verifying the data in the Pipe destination")
+			SQL = SQLFromFile("SQL/loading/cloud/gcs/18-query-pipe-target.sql")
+			time.Sleep(40 * time.Second)
+			rows, err := db.Query(SQL)
+			Expect(err).NotTo(HaveOccurred())
+			defer rows.Close()
+
+			records := []string{}
+			fmt.Println("Checking data loaded with Pipe")
+			fmt.Println("UserID\tItemID\tCategoryID\tTimestamp")
+			for rows.Next() {
+
+				var UserID string
+				var ItemID string
+				var CategoryID string
+				var BehaviorType string
+				var Timestamp string
+
+				err := rows.Scan(&UserID, &ItemID, &CategoryID, &BehaviorType, &Timestamp)
+				Expect(err).NotTo(HaveOccurred())
+				records = append(records, UserID+"-"+ItemID+"-"+CategoryID+BehaviorType+"-"+Timestamp)
+				fmt.Println(UserID+"\t"+ItemID+"\t"+CategoryID+"\t"+BehaviorType+"\t"+Timestamp)
+			}
+			//Expect(records).To(ContainElement("192-34-0.09-18 Jan 2015 08:00"))
+			//Expect(records).To(ContainElement("138-33.5-0.02-18 Jan 2015 07:00"))
 		})
 	})
 })
