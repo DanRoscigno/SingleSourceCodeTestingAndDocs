@@ -21,7 +21,7 @@ var GCS_SERVICE_ACCOUNT_PRIVATE_KEY = os.Getenv("GCS_SERVICE_ACCOUNT_PRIVATE_KEY
 
 func GetDSNConnection() (*sql.DB, error) {
 	SR_FE_HOST := os.Getenv("SR_FE_HOST")
-	fmt.Print("SR HOST is " + SR_FE_HOST)
+	fmt.Println("SR HOST is " + SR_FE_HOST)
 	cfg := mysql.Config{
 		User:                 "root",
 		Passwd:               "",
@@ -54,7 +54,7 @@ func AddGCSCredentials(sql string) string {
 	re := strings.NewReplacer(
 		"sampledatareader@xxxxx-xxxxxx-000000.iam.gserviceaccount.com", GCS_SERVICE_ACCOUNT_EMAIL,
 		"baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", GCS_SERVICE_ACCOUNT_PRIVATE_KEY_ID,
-		"-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----", string(decodedKey),
+		"-----BEGIN PRIVATE KEY----- ----END PRIVATE KEY-----", string(decodedKey),
 	)
 	return re.Replace(sql)
 }
