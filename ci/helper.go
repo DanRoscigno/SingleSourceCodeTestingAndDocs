@@ -14,6 +14,9 @@ import (
 var db *sql.DB
 var AWS_S3_ACCESS_KEY = os.Getenv("AWS_S3_ACCESS_KEY")
 var AWS_S3_SECRET_KEY = os.Getenv("AWS_S3_SECRET_KEY")
+var GCS_SERVICE_ACCOUNT_EMAIL = os.Getenv("GCS_SERVICE_ACCOUNT_EMAIL")
+var GCS_SERVICE_ACCOUNT_PRIVATE_KEY_ID = os.Getenv("GCS_SERVICE_ACCOUNT_PRIVATE_KEY_ID")
+var GCS_SERVICE_ACCOUNT_PRIVATE_KEY = os.Getenv("GCS_SERVICE_ACCOUNT_PRIVATE_KEY")
 
 func GetDSNConnection() (*sql.DB, error) {
 	SR_FE_HOST := os.Getenv("SR_FE_HOST")
@@ -40,6 +43,15 @@ func AddAWSCredentials(sql string) string {
 	re := strings.NewReplacer(
 		"AAAAAAAAAAAAAAAAAAAA", AWS_S3_ACCESS_KEY,
 		"BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB", AWS_S3_SECRET_KEY,
+	)
+	return re.Replace(sql)
+}
+
+func AddGCSCredentials(sql string) string {
+	re := strings.NewReplacer(
+		"sampledatareader@xxxxx-xxxxxx-000000.iam.gserviceaccount.com", GCS_SERVICE_ACCOUNT_EMAIL,
+		"baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", GCS_SERVICE_ACCOUNT_PRIVATE_KEY_ID,
+		"-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----", GCS_SERVICE_ACCOUNT_PRIVATE_KEY,
 	)
 	return re.Replace(sql)
 }

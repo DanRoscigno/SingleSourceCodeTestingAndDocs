@@ -1,0 +1,40 @@
+name: Test loading from GCS docs
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    name: Build and test
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repo as this CI needs:
+      # - the compose file for StarRocks and Ginkgo/Gomega
+      - uses: actions/checkout@v3
+
+      # Build the test harness container (Golnag/Ginkgo/Gomega)
+      - name: Build Ginkgo container
+        run: docker compose -f general-compose.yml build
+
+      - name: Start StarRocks
+        run: docker compose -f general-compose.yml up --detach --wait --wait-timeout 60
+
+      # Any tests that will run against the StarRocks env would be 
+      # launched in steps like this one. Make sure to reset the 
+      # StarRocks environment after each run (remove any tables
+      # and databases created, and reset any settings to the default)
+      #
+      # The ginkgo command uses `--focus-file` to run only the one test
+      # file.
+      - name: Test; Loading from GCS
+        if: always()
+        run: |
+          docker compose -f general-compose.yml exec \
+            -e SR_FE_HOST='starrocks-fe' \
+            -e GCS_SERVICE_ACCOUNT_EMAIL=${{ secrets.GCS_SERVICE_ACCOUNT_EMAIL }} \
+            -e GCS_SERVICE_ACCOUNT_PRIVATE_KEY_ID=${{ secrets.GCS_SERVICE_ACCOUNT_PRIVATE_KEY_ID }} \
+            -e GCS_SERVICE_ACCOUNT_PRIVATE_KEY=${{ secrets.GCS_SERVICE_ACCOUNT_PRIVATE_KEY }} \
+            test-harness ginkgo -v \
+            --focus-file=./loading_gcs_test.go
