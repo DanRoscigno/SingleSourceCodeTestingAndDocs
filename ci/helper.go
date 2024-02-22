@@ -6,6 +6,7 @@ import (
 	"os"
 	"os/exec"
 	"strings"
+	"encoding/base64"
 
 	"github.com/go-sql-driver/mysql"
 	. "github.com/onsi/gomega"
@@ -48,10 +49,12 @@ func AddAWSCredentials(sql string) string {
 }
 
 func AddGCSCredentials(sql string) string {
+	decodedKey, err := base64.StdEncoding.DecodeString(GCS_SERVICE_ACCOUNT_PRIVATE_KEY)
+	Expect(err).ToNot(HaveOccurred())
 	re := strings.NewReplacer(
 		"sampledatareader@xxxxx-xxxxxx-000000.iam.gserviceaccount.com", GCS_SERVICE_ACCOUNT_EMAIL,
 		"baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", GCS_SERVICE_ACCOUNT_PRIVATE_KEY_ID,
-		"-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----", GCS_SERVICE_ACCOUNT_PRIVATE_KEY,
+		"-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY-----", decodedKey,
 	)
 	return re.Replace(sql)
 }
