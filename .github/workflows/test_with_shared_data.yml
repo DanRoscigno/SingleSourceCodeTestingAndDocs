@@ -2,22 +2,6 @@ name: Test with Shared Data
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "5 9 * * 1"
-  push:
-    branches: [ main ]
-    paths:
-      - 'ci/**/quickstart/shared_data/*'
-      - '.github/workflows/test_with_shared_data.yml'
-      - 'quickstart_shared_data_test.go'
-      - 'helper.go'
-  pull_request:
-    branches: [ main ]
-    paths:
-      - 'ci/**/quickstart/shared_data/*'
-      - '.github/workflows/test_with_shared_data.yml'
-      - 'quickstart_shared_data_test.go'
-      - 'helper.go'
 
 jobs:
   build:
