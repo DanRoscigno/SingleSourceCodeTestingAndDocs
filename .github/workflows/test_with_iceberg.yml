@@ -1,4 +1,4 @@
-name: Test with Hudi
+name: Test with Iceberg
 
 on:
   workflow_dispatch:
@@ -41,7 +41,7 @@ jobs:
       - name: Copy dataset and script
         run: |
           docker compose cp datasets/green_tripdata_2023-05.parquet spark-iceberg:/opt/spark/
-          docker compose cp python pyspark-example.py spark-iceberg:/opt/spark/
+          docker compose cp pyspark-example.py spark-iceberg:/opt/spark/
         working-directory: demo/documentation-samples/iceberg
 
       - name: Run PySpark job
