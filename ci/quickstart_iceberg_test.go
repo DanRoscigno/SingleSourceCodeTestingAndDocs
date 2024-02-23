@@ -21,8 +21,8 @@ var _ = Describe("QuickstartIceberg", func() {
 
 		It("DDL: External Catalog", func() {
 			By("Create the external CATALOG")
-			SQL = SQLFromFile("SQL/quickstart/iceberg/01-create-catalog.sql")
-			_, err = db.Exec(SQL)
+			SQL := SQLFromFile("SQL/quickstart/iceberg/01-create-catalog.sql")
+			_, err := db.Exec(SQL)
 
 			By("SET CATALOG")
 			SQL = SQLFromFile("SQL/quickstart/iceberg/02-set-catalog.sql")
@@ -46,7 +46,7 @@ var _ = Describe("QuickstartIceberg", func() {
 			// |  4736 |          15 |
 			// |  4393 |          14 |
 
-			SQL = SQLFromFile("SQL/quickstart/iceberg/04-summarize-trips.sql")
+			SQL := SQLFromFile("SQL/quickstart/iceberg/04-summarize-trips.sql")
 			rows, err := db.Query(SQL)
 			Expect(err).NotTo(HaveOccurred())
 			defer rows.Close()
@@ -60,6 +60,7 @@ var _ = Describe("QuickstartIceberg", func() {
 				records = append(records, trips + "-" + hour_of_day)
 			}
 			Expect(records).To(ContainElement("5381-18"))
+			Expect(records).To(ContainElement("5253-17"))
 			Expect(records).To(ContainElement("4736-15"))
 			Expect(records).To(ContainElement("4393-14"))
 		})
