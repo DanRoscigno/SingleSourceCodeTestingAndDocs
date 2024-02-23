@@ -1,0 +1,63 @@
+name: Test with Hudi
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    name: Build and test
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repo as this CI needs:
+      # - the compose file for StarRocks and Ginkgo/Gomega
+      - name: Checkout Test repo
+        uses: actions/checkout@v4
+        with:
+          path: testing
+
+      - name: Checkout Demo repo
+        uses: actions/checkout@v4
+        with:
+          repository: StarRocks/demo
+          path: demo
+
+      - name: Set up Golang
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: 'testing/ci/go.mod'
+
+      - name: Install ginkgo
+        run: |
+          version=$(cat go.mod| grep "ginkgo/v2" | awk '{print $2}')
+          go install -v github.com/onsi/ginkgo/v2/ginkgo@$version
+        working-directory: ./testing/ci
+
+      - name: Start Iceberg, StarRocks, and MinIO
+        run: docker compose up --detach --wait --wait-timeout 60
+        working-directory: demo/documentation-samples/iceberg
+
+      - name: Copy dataset and script
+        run: |
+          docker compose cp datasets/green_tripdata_2023-05.parquet spark-iceberg:/opt/spark/
+          docker compose cp python pyspark-example.py spark-iceberg:/opt/spark/
+        working-directory: demo/documentation-samples/iceberg
+
+      - name: Run PySpark job
+        run: docker compose exec spark-iceberg python pyspark-example.py
+        working-directory: demo/documentation-samples/iceberg
+
+      # Any tests that will run against the StarRocks env would be 
+      # launched in steps like this one. Make sure to reset the 
+      # StarRocks environment after each run (remove any tables
+      # and databases created, and reset any settings to the default)
+      #
+      # The ginkgo command uses `--focus-file` to run only the one test
+      # file.
+      - name: Test; Iceberg SQL test
+        if: always()
+        env:
+          SR_FE_HOST: 'localhost'
+        run: ginkgo -v --focus-file=./quickstart_iceberg_test.go
+        working-directory: testing/ci
