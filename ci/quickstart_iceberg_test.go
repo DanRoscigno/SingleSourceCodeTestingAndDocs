@@ -52,12 +52,15 @@ var _ = Describe("QuickstartIceberg", func() {
 			defer rows.Close()
 
 			records := []string{}
+			fmt.Println("Checking summary of taxi and trips")
+			fmt.Println("trips\thour_of_day")
 			for rows.Next() {
 				var trips string
 				var hour_of_day string
 				err := rows.Scan(&trips, &hour_of_day)
 				Expect(err).NotTo(HaveOccurred())
 				records = append(records, trips + "-" + hour_of_day)
+				fmt.Println(trips+"\t"+hour_of_day)
 			}
 			Expect(records).To(ContainElement("5381-18"))
 			Expect(records).To(ContainElement("5253-17"))
