@@ -7,7 +7,7 @@ AS
 INSERT INTO user_behavior_replica
 SELECT * FROM FILES
 (
-    "path" = "s3://starrocks-examples/user_behavior_ten_million_rows/*",
+    "path" = "s3://starrocks-examples/user-behavior-10-million-rows/*",
     "format" = "parquet",
     "aws.s3.region" = "us-east-1",
     "aws.s3.access_key" = "AAAAAAAAAAAAAAAAAAAA",
