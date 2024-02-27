@@ -62,7 +62,7 @@ func AddGCSCredentials(sql string) string {
 
 func AddAzureCredentials(sql string) string {
 	re := strings.NewReplacer(
-		"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb+ccccccccc=", AZURE_ADLS2_SHARED_KEY,
+		"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb+ccccccccc==", AZURE_ADLS2_SHARED_KEY,
 	)
 	return re.Replace(sql)
 }
