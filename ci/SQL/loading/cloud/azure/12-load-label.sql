@@ -1,6 +1,6 @@
 LOAD LABEL user_behavior
 (
-    DATA INFILE("abfss://samples@starrocksdocs.dfs.core.windows.net/user_behavior_ten_million_rows.parquet"),
+    DATA INFILE("abfss://samples@starrocksdocs.dfs.core.windows.net/user_behavior_ten_million_rows.parquet")
     INTO TABLE user_behavior
     FORMAT AS "parquet"
  )
@@ -11,5 +11,5 @@ LOAD LABEL user_behavior
  )
 PROPERTIES
 (
-    "timeout" = "72000"
+    "timeout" = "3600"
 );
