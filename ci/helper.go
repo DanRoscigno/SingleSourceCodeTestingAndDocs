@@ -18,6 +18,7 @@ var AWS_S3_SECRET_KEY = os.Getenv("AWS_S3_SECRET_KEY")
 var GCS_SERVICE_ACCOUNT_EMAIL = os.Getenv("GCS_SERVICE_ACCOUNT_EMAIL")
 var GCS_SERVICE_ACCOUNT_PRIVATE_KEY_ID = os.Getenv("GCS_SERVICE_ACCOUNT_PRIVATE_KEY_ID")
 var GCS_SERVICE_ACCOUNT_PRIVATE_KEY = os.Getenv("GCS_SERVICE_ACCOUNT_PRIVATE_KEY")
+var AZURE_ADLS2_SHARED_KEY = os.Getenv("AZURE_ADLS2_SHARED_KEY")
 
 func GetDSNConnection() (*sql.DB, error) {
 	SR_FE_HOST := os.Getenv("SR_FE_HOST")
@@ -55,6 +56,13 @@ func AddGCSCredentials(sql string) string {
 		"sampledatareader@xxxxx-xxxxxx-000000.iam.gserviceaccount.com", GCS_SERVICE_ACCOUNT_EMAIL,
 		"baaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", GCS_SERVICE_ACCOUNT_PRIVATE_KEY_ID,
 		"-----BEGIN PRIVATE KEY----- ----END PRIVATE KEY-----", string(decodedKey),
+	)
+	return re.Replace(sql)
+}
+
+func AddAzureCredentials(sql string) string {
+	re := strings.NewReplacer(
+		"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb+ccccccccc=", AZURE_ADLS2_SHARED_KEY,
 	)
 	return re.Replace(sql)
 }
