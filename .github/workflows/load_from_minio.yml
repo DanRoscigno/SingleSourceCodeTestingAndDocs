@@ -65,7 +65,7 @@ jobs:
   
         # The ginkgo command uses `--focus-file` to run only the one test
         # file.
-        - name: Test; Hudi SQL test
+        - name: Test; MinIO SQL test
           env:
             SR_FE_HOST: 'localhost'
           run: |
