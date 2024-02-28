@@ -53,10 +53,12 @@ jobs:
           working-directory: demo/documentation-samples/utility
   
         - name: Download dataset
+          if: always()
           run: curl -O https://starrocks-examples.s3.amazonaws.com/user_behavior_ten_million_rows.parquet
           working-directory: demo/documentation-samples/utility
 
         - name: Move dataset into MinIO bucket
+          if: always()
           run: |
             docker compose exec minio mc alias set myminio http://minio:9000 miniouser miniopassword
             docker compose cp user_behavior_ten_million_rows.parquet minio:/tmp/
