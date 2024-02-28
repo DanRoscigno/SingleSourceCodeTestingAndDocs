@@ -58,6 +58,8 @@ var _ = Describe("Docs", func() {
 			Expect(err).NotTo(HaveOccurred())
 			defer rows.Close()
 
+			fmt.Println("Checking schema created with CTAS")
+			fmt.Println("COLUMN_NAME\tDATA_TYPE")
 			fieldTypes := []string{}
 			for rows.Next() {
 				var COLUMN_NAME string
@@ -65,6 +67,7 @@ var _ = Describe("Docs", func() {
 				err := rows.Scan(&COLUMN_NAME, &DATA_TYPE)
 				Expect(err).NotTo(HaveOccurred())
 				fieldTypes = append(fieldTypes, COLUMN_NAME + "-" + DATA_TYPE)
+				fmt.Println(COLUMN_NAME+"\t"+DATA_TYPE)
 			}
 			Expect(fieldTypes).To(ContainElement("UserID-bigint"))
 			Expect(fieldTypes).To(ContainElement("ItemID-bigint"))
