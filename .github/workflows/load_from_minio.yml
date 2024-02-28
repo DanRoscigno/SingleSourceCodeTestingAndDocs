@@ -65,5 +65,8 @@ jobs:
           if: always()
           env:
             SR_FE_HOST: 'localhost'
-          run: ginkgo -v --focus-file=./loading_minio_test.go
+          run: |
+            # Wait for MinIO to have the file ready
+            sleep 30
+            ginkgo -v --focus-file=./loading_minio_test.go
           working-directory: testing/ci
