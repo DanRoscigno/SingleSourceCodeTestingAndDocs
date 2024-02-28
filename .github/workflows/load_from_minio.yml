@@ -71,5 +71,5 @@ jobs:
           run: |
             # Wait for MinIO to have the file ready
             sleep 30
-            ginkgo -vv --focus-file=./loading_minio_test.go
+            ginkgo -v --focus-file=./loading_minio_test.go
           working-directory: testing/ci
