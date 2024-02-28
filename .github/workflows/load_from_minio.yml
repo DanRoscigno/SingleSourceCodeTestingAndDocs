@@ -1,0 +1,69 @@
+name: Test loading from MinIO docs
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    name: Build and test
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the this testing repo into testing
+      # Checkout the demo repo into demo
+      # install Golang etc.
+      # start the demo utility compose
+      # curl the ten million rows sample
+      # docker compose cp the parquet file to the minio container
+      # docker compose exec to the minio container and `mc cp` the parquet file into place
+      # run the tests
+
+        # Checkout the repo as this CI needs:
+        # - the test files
+        - name: Checkout Test repo
+          uses: actions/checkout@v4
+          with:
+            path: testing
+
+        # Use the utility compose file from the demo repo as it has MinIO
+        - name: Checkout Demo repo
+          uses: actions/checkout@v4
+          with:
+            repository: StarRocks/demo
+            path: demo
+  
+        - name: Set up Golang
+          uses: actions/setup-go@v5
+          with:
+            go-version-file: 'testing/ci/go.mod'
+  
+        - name: Install ginkgo
+          run: |
+            version=$(cat go.mod| grep "ginkgo/v2" | awk '{print $2}')
+            go install -v github.com/onsi/ginkgo/v2/ginkgo@$version
+          working-directory: ./testing/ci
+  
+        - name: Start StarRocks, and MinIO
+          run: docker compose up --detach --wait --wait-timeout 60
+          working-directory: demo/documentation-samples/utility
+  
+        - name: Download dataset
+          run: curl -O https://starrocks-examples.s3.amazonaws.com/user_behavior_ten_million_rows.parquet
+          working-directory: demo/documentation-samples/utility
+
+        - name: Move dataset into MinIO bucket
+          run: |
+            docker compose exec minio mc alias set myminio http://minio:9000 miniouser miniopassword
+            docker compose cp user_behavior_ten_million_rows.parquet minio:/tmp/
+            docker compose exec minio mc cp /tmp/user_behavior_ten_million_rows.parquet myminio/starrocks/user_behavior_ten_million_rows.parquet
+          working-directory: demo/documentation-samples/utility
+  
+        # The ginkgo command uses `--focus-file` to run only the one test
+        # file.
+        - name: Test; Hudi SQL test
+          if: always()
+          env:
+            SR_FE_HOST: 'localhost'
+          run: ginkgo -v --focus-file=./loading_minio_test.go
+          working-directory: testing/ci
