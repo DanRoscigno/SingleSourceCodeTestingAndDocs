@@ -21,7 +21,7 @@ jobs:
 
         # Add the minio container to the hosts file
         - name: Add minio to hosts file
-          run: echo "127.0.0.1 minio" >> /etc/hosts
+          run: sudo echo "127.0.0.1 minio" >> /etc/hosts
 
         # Checkout the repo as this CI needs:
         # - the test files
