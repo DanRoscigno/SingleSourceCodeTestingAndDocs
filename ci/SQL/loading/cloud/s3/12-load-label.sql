@@ -10,7 +10,7 @@ LOAD LABEL user_behavior
     "aws.s3.use_instance_profile" = "false",
     "aws.s3.region" = "us-east-1",
     "aws.s3.access_key" = "AAAAAAAAAAAAAAAAAAAA",
-    "aws.s3.secret_key" = "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
+    "aws.s3.secret_key" = "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB"
  )
 PROPERTIES
 (
