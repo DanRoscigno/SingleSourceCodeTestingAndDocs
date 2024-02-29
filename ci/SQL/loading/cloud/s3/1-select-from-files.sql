@@ -1,6 +1,6 @@
 SELECT * FROM FILES
 (
-    "path" = "s3://starrocks-examples/user_behavior_ten_million_rows.parquet",
+    "path" = "s3://starrocks-examples/user-behavior-10-million-rows.parquet",
     "format" = "parquet",
     "aws.s3.region" = "us-east-1",
     -- highlight-start
