@@ -71,8 +71,8 @@ var _ = Describe("Docs", func() {
 			Expect(fieldTypes).To(ContainElement("UserID-bigint"))
 			Expect(fieldTypes).To(ContainElement("ItemID-bigint"))
 			Expect(fieldTypes).To(ContainElement("CategoryID-bigint"))
-			Expect(fieldTypes).To(ContainElement("BehaviorType-varbinary"))
-			Expect(fieldTypes).To(ContainElement("Timestamp-varbinary"))
+			Expect(fieldTypes).To(ContainElement("BehaviorType-varchar"))
+			Expect(fieldTypes).To(ContainElement("Timestamp-varchar"))
 
 			By("Selecting from the table")
 			SQL = SQLFromFile("SQL/loading/cloud/gcs/6-select.sql")

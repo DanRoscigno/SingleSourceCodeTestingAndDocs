@@ -1,7 +1,7 @@
 CREATE TABLE user_behavior_inferred AS
 SELECT * FROM FILES
 (
-    "path" = "gs://starrocks-samples/user_behavior_ten_million_rows.parquet",
+    "path" = "gs://starrocks-samples/user-behavior-10-million-rows.parquet",
     "format" = "parquet",
     -- highlight-start
     "gcp.gcs.service_account_email" = "sampledatareader@xxxxx-xxxxxx-000000.iam.gserviceaccount.com",
