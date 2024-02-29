@@ -4,7 +4,7 @@ CREATE TABLE user_behavior_replica
     ItemID int(11),
     CategoryID int(11),
     BehaviorType varchar(65533),
-    Timestamp varbinary
+    Timestamp datetime
 )
 ENGINE = OLAP 
 DUPLICATE KEY(UserID)
