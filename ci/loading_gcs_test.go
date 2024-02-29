@@ -161,8 +161,11 @@ var _ = Describe("Docs", func() {
 				records = append(records, UserID+"-"+ItemID+"-"+CategoryID+"-"+BehaviorType+"-"+Timestamp)
 				fmt.Println(UserID+"\t"+ItemID+"\t"+CategoryID+"\t"+BehaviorType+"\t"+Timestamp)
 			}
-			//Expect(records).To(ContainElement("192-34-0.09-18 Jan 2015 08:00"))
-			//Expect(records).To(ContainElement("138-33.5-0.02-18 Jan 2015 07:00"))
+			Expect(records).To(ContainElement("2576651-149192"))
+			Expect(records).To(ContainElement("3830808-4181361"))
+			Expect(records).To(ContainElement("4365585-2520377"))
+			Expect(records).To(ContainElement("4606018-2735466"))
+			Expect(records).To(ContainElement("230380-411153"))
 		})
 	})
 })
