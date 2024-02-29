@@ -142,8 +142,8 @@ var _ = Describe("Docs", func() {
 		It("Verify the Pipe created earlier", func() {
 
 			By("Show pipes")
-			SQL = SQLFromFile("SQL/loading/cloud/gcs/17-show-pipes.sql")
-			_, err = db.Exec(SQL)
+			SQL := SQLFromFile("SQL/loading/cloud/gcs/17-show-pipes.sql")
+			_, err := db.Exec(SQL)
 			Expect(err).ToNot(HaveOccurred())
 
 			By("Verifying the data in the Pipe destination")
