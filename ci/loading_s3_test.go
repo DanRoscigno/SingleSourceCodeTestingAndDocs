@@ -158,9 +158,9 @@ var _ = Describe("Docs", func() {
 				fieldTypes = append(fieldTypes, COLUMN_NAME + "-" + DATA_TYPE)
 				fmt.Println(COLUMN_NAME+"\t"+DATA_TYPE)
 			}
-			Expect(fieldTypes).To(ContainElement("UserID-bigint"))
-			Expect(fieldTypes).To(ContainElement("ItemID-bigint"))
-			Expect(fieldTypes).To(ContainElement("CategoryID-bigint"))
+			Expect(fieldTypes).To(ContainElement("UserID-int"))
+			Expect(fieldTypes).To(ContainElement("ItemID-int"))
+			Expect(fieldTypes).To(ContainElement("CategoryID-int"))
 			Expect(fieldTypes).To(ContainElement("BehaviorType-varchar"))
 			Expect(fieldTypes).To(ContainElement("Timestamp-datetime"))
 
