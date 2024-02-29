@@ -1,10 +1,10 @@
-CREATE PIPE user_behavior_replica
+CREATE PIPE user_behavior_pipe
 PROPERTIES
 (
     "AUTO_INGEST" = "TRUE"
 )
 AS
-INSERT INTO user_behavior_replica
+INSERT INTO user_behavior_from_pipe
 SELECT * FROM FILES
 (
     "path" = "gs://starrocks-samples/user-behavior-10-million-rows.parquet",

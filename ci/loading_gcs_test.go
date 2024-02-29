@@ -150,7 +150,6 @@ var _ = Describe("Docs", func() {
 			fmt.Println("Checking data loaded with Pipe")
 			fmt.Println("UserID\tItemID\tCategoryID\tTimestamp")
 			for rows.Next() {
-
 				var UserID string
 				var ItemID string
 				var CategoryID string
@@ -159,7 +158,7 @@ var _ = Describe("Docs", func() {
 
 				err := rows.Scan(&UserID, &ItemID, &CategoryID, &BehaviorType, &Timestamp)
 				Expect(err).NotTo(HaveOccurred())
-				records = append(records, UserID+"-"+ItemID+"-"+CategoryID+BehaviorType+"-"+Timestamp)
+				records = append(records, UserID+"-"+ItemID+"-"+CategoryID+"-"+BehaviorType+"-"+Timestamp)
 				fmt.Println(UserID+"\t"+ItemID+"\t"+CategoryID+"\t"+BehaviorType+"\t"+Timestamp)
 			}
 			//Expect(records).To(ContainElement("192-34-0.09-18 Jan 2015 08:00"))

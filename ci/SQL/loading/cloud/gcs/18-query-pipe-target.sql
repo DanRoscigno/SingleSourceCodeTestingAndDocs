@@ -1,1 +1,1 @@
-SELECT * from user_behavior_replica LIMIT 3;
+SELECT * from user_behavior_from_pipe LIMIT 3;
