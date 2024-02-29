@@ -1,6 +1,6 @@
 LOAD LABEL user_behavior
 (
-    DATA INFILE("s3://starrocks-examples/user_behavior_ten_million_rows.parquet")
+    DATA INFILE("s3://starrocks-examples/user-behavior-10-million-rows.parquet")
     INTO TABLE user_behavior
     FORMAT AS "parquet"
  )
