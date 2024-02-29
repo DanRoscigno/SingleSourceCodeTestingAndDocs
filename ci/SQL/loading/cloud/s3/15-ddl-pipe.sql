@@ -1,4 +1,4 @@
-CREATE TABLE user_behavior_replica
+CREATE TABLE user_behavior_from_pipe
 (
     UserID int(11),
     ItemID int(11),
