@@ -39,6 +39,24 @@ var _ = Describe("Docs", func() {
 			Expect(err).ToNot(HaveOccurred())
 		})
 
+		// Pipe occurs at the end of the doc, but since the Pipe runs async
+		// we need to wait for the data to be loaded before verifying it.
+		// So, start the Pipe at the beginning of the test, and then query
+		// at the end avoiding a long sleep()
+		It("Create table and then load with Pipe and FILES", func() {
+
+			By("Pipe DDL")
+			SQL := SQLFromFile("SQL/loading/cloud/gcs/15-ddl-pipe.sql")
+			_, err := db.Exec(SQL)
+			Expect(err).ToNot(HaveOccurred())
+
+			By("Create a pipe")
+			SQL = SQLFromFile("SQL/loading/cloud/gcs/16-create-pipe.sql")
+			SQLWithCreds := AddGCSCredentials(SQL)
+			_, err = db.Exec(SQLWithCreds)
+			Expect(err).ToNot(HaveOccurred())
+		})
+
 		It("Use the FILES table fxn", func() {
 
 			By("Selecting directly from GCS")
@@ -121,18 +139,7 @@ var _ = Describe("Docs", func() {
 
 		})
 
-		It("Create table and then load with Pipe and FILES", func() {
-
-			By("Pipe DDL")
-			SQL := SQLFromFile("SQL/loading/cloud/gcs/15-ddl-pipe.sql")
-			_, err := db.Exec(SQL)
-			Expect(err).ToNot(HaveOccurred())
-
-			By("Create a pipe")
-			SQL = SQLFromFile("SQL/loading/cloud/gcs/16-create-pipe.sql")
-			SQLWithCreds := AddGCSCredentials(SQL)
-			_, err = db.Exec(SQLWithCreds)
-			Expect(err).ToNot(HaveOccurred())
+		It("Verify the Pipe created earlier", func() {
 
 			By("Show pipes")
 			SQL = SQLFromFile("SQL/loading/cloud/gcs/17-show-pipes.sql")
@@ -141,7 +148,7 @@ var _ = Describe("Docs", func() {
 
 			By("Verifying the data in the Pipe destination")
 			SQL = SQLFromFile("SQL/loading/cloud/gcs/18-query-pipe-target.sql")
-			time.Sleep(140 * time.Second)
+			time.Sleep(1 * time.Second)
 			rows, err := db.Query(SQL)
 			Expect(err).NotTo(HaveOccurred())
 			defer rows.Close()
