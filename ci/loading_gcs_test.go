@@ -148,7 +148,7 @@ var _ = Describe("Docs", func() {
 
 			By("Verifying the data in the Pipe destination")
 			SQL = SQLFromFile("SQL/loading/cloud/gcs/18-query-pipe-target.sql")
-			time.Sleep(30 * time.Second)
+			time.Sleep(60 * time.Second)
 			rows, err := db.Query(SQL)
 			Expect(err).NotTo(HaveOccurred())
 			defer rows.Close()
