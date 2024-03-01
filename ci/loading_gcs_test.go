@@ -55,7 +55,7 @@ var _ = Describe("Docs", func() {
 
 			By("Describing the table")
 			//SQL = SQLFromFile("SQL/loading/cloud/gcs/5-describe.sql")
-			SQL = `select COLUMN_NAME, DATA_TYPE from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME = 'user_behavior_inferred';`
+			SQL = `SELECT COLUMN_NAME, DATA_TYPE from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME = 'user_behavior_inferred';`
 			rows, err := db.Query(SQL)
 			Expect(err).NotTo(HaveOccurred())
 			defer rows.Close()
@@ -163,11 +163,22 @@ var _ = Describe("Docs", func() {
 			Expect(fieldTypes).To(ContainElement("Timestamp-datetime"))
 
 			By("Check pipe loading status")
-			SQL = `select COUNT(*) from information_schema.pipe_files WHERE PIPE_NAME = 'user_behavior_pipe' AND LOAD_STATE <> 'FINISHED';`
-			var unfinishedRows int
-			err = db.QueryRow(SQL).Scan(&unfinishedRows)
-			fmt.Printf("Rows left to process: %d\n", unfinishedRows)
-			Expect(err).ToNot(HaveOccurred())
+			SQL = `SELECT FILE_NAME, LOAD_STATE from INFORMATION_SCHEMA.pipe_files where PIPE_NAME = 'user_behavior_pipe';`
+			rows, err := db.Query(SQL)
+			Expect(err).NotTo(HaveOccurred())
+			defer rows.Close()
+
+			fmt.Println("Checking schema created with Pipe")
+			fmt.Println("COLUMN_NAME\tDATA_TYPE")
+			fileState := []string{}
+			for rows.Next() {
+				var fileName string
+				var loadState string
+				err := rows.Scan(&fileName, &loadState)
+				Expect(err).NotTo(HaveOccurred())
+				fileState = append(fileState, fileName + "-" + loadState)
+				fmt.Println(fileName+"\t"+loadState)
+			}
 
 		})
 	})
