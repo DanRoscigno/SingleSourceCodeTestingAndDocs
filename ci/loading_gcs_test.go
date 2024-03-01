@@ -164,7 +164,7 @@ var _ = Describe("Docs", func() {
 
 			By("Check pipe loading status")
 			SQL = `SELECT FILE_NAME, LOAD_STATE from INFORMATION_SCHEMA.pipe_files where PIPE_NAME = 'user_behavior_pipe';`
-			rows, err := db.Query(SQL)
+			rows, err = db.Query(SQL)
 			Expect(err).NotTo(HaveOccurred())
 			defer rows.Close()
 
