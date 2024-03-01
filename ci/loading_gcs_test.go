@@ -142,7 +142,7 @@ var _ = Describe("Docs", func() {
 
 			By("Checking for unfinished file loading from pipe")
 
-			i := 0
+			//i := 0
 			var unfinished int
 
 			SQL = `SELECT COUNT(*) from information_schema.pipe_files
