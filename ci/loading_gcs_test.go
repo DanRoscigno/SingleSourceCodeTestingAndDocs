@@ -139,10 +139,10 @@ var _ = Describe("Docs", func() {
 			_, err = db.Exec(SQL)
 			Expect(err).ToNot(HaveOccurred())
 
-			i := 0
-			var unfinshed int
 
 			By("Checking for unfinished file loading from pipe")
+			i := 0
+			unfinshed := 100
 			SQL = `SELECT COUNT(*) from information_schema.pipe_files
 			WHERE PIPE_NAME = 'user_behavior_pipe' AND LOAD_STATE <> 'FINISHED';`
 
