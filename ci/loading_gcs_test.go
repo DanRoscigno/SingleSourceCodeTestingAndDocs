@@ -2,7 +2,7 @@ package docs_test
 
 import (
 	"fmt"
-//	"time"
+	"time"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )
@@ -134,6 +134,11 @@ var _ = Describe("Docs", func() {
 			_, err = db.Exec(SQLWithCreds)
 			Expect(err).ToNot(HaveOccurred())
 
+			// sleep to give the pipe time to connect to the provider
+			// and register the names of files
+			fmt.Println("Sleeping for 50 seconds while pipe gets primed")
+			time.Sleep(50 * time.Second)
+
 			By("Show pipes")
 			SQL = SQLFromFile("SQL/loading/cloud/gcs/17-show-pipes.sql")
 			_, err = db.Exec(SQL)
@@ -169,7 +174,7 @@ var _ = Describe("Docs", func() {
 			defer rows.Close()
 
 			fmt.Println("Checking schema created with Pipe")
-			fmt.Println("COLUMN_NAME\tDATA_TYPE")
+			fmt.Println("Filename\tLoading state")
 			fileState := []string{}
 			for rows.Next() {
 				var fileName string
