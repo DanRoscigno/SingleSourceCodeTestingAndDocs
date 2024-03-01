@@ -148,14 +148,14 @@ var _ = Describe("Docs", func() {
 			SQL = `SELECT COUNT(*) from information_schema.pipe_files
 			WHERE PIPE_NAME = 'user_behavior_pipe' AND LOAD_STATE <> 'FINISHED';`
 
-			for i < 200 {
+			//for i < 200 {
 				err := db.QueryRow(SQL).Scan(&unfinished)
 				if err != nil {
 					panic(err.Error())
 				}
 				fmt.Printf("Unfinsihed row count: %d \n", unfinished)
 				time.Sleep(3 * time.Second)
-			}
+			//}
 
 			By("Verifying the data in the Pipe destination")
 			SQL = SQLFromFile("SQL/loading/cloud/gcs/18-query-pipe-target.sql")
