@@ -139,9 +139,24 @@ var _ = Describe("Docs", func() {
 			_, err = db.Exec(SQL)
 			Expect(err).ToNot(HaveOccurred())
 
+			i := 0
+			var unfinshed int
+
+			By("Checking for unfinished file loading from pipe")
+			SQL = `SELECT COUNT(*) from information_schema.pipe_files
+			WHERE PIPE_NAME = 'user_behavior_pipe' AND LOAD_STATE <> 'FINISHED';`
+
+			for i < 200 {
+				err := db.QueryRow(SQL).Scan(&unfinished)
+				if err != nil {
+					panic(err.Error())
+				}
+				fmt.Printf("Unfinsihed row count: %d \n", unfinished)
+				time.Sleep(3 * time.Second)
+			}
+
 			By("Verifying the data in the Pipe destination")
 			SQL = SQLFromFile("SQL/loading/cloud/gcs/18-query-pipe-target.sql")
-			time.Sleep(300 * time.Second)
 			rows, err := db.Query(SQL)
 			Expect(err).NotTo(HaveOccurred())
 			defer rows.Close()
