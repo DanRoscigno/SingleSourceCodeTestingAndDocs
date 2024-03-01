@@ -162,6 +162,13 @@ var _ = Describe("Docs", func() {
 			Expect(fieldTypes).To(ContainElement("BehaviorType-varchar"))
 			Expect(fieldTypes).To(ContainElement("Timestamp-datetime"))
 
+			By("Check pipe loading status")
+			SQL = `select COUNT(*) from information_schema.pipe_files WHERE PIPE_NAME = 'user_behavior_pipe' AND LOAD_STATE <> 'FINISHED';`
+			var unfinishedRows int
+			err = db.QueryRow(SQL).Scan(&unfinishedRows)
+			fmt.Printf("Rows left to process: %d\n", unfinishedRows)
+			Expect(err).ToNot(HaveOccurred())
+
 		})
 	})
 })
