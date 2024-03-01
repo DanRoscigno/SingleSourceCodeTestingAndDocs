@@ -149,7 +149,7 @@ var _ = Describe("Docs", func() {
 			WHERE PIPE_NAME = 'user_behavior_pipe' AND LOAD_STATE <> 'FINISHED';`
 
 			//for i < 200 {
-				err := db.QueryRow(SQL).Scan(&unfinished)
+				err = db.QueryRow(SQL).Scan(&unfinished)
 				if err != nil {
 					panic(err.Error())
 				}
