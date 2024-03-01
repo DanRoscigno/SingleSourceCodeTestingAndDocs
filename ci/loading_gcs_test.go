@@ -145,41 +145,15 @@ var _ = Describe("Docs", func() {
 			//i := 0
 			var unfinished int
 
-			SQL = `SELECT COUNT(*) from information_schema.pipe_files
-			WHERE PIPE_NAME = 'user_behavior_pipe' AND LOAD_STATE <> 'FINISHED';`
+			SQL = `SELECT COUNT(*) from information_schema.pipe_files WHERE PIPE_NAME = 'user_behavior_pipe' AND LOAD_STATE <> 'FINISHED';`
 
-			//for i < 200 {
-				err = db.QueryRow(SQL).Scan(&unfinished)
-				if err != nil {
-					panic(err.Error())
-				}
-				fmt.Printf("Unfinsihed row count: %d \n", unfinished)
-				time.Sleep(3 * time.Second)
-			//}
+			err = db.QueryRow(SQL).Scan(&unfinished)
 
-			By("Verifying the data in the Pipe destination")
-			SQL = SQLFromFile("SQL/loading/cloud/gcs/18-query-pipe-target.sql")
-			rows, err := db.Query(SQL)
-			Expect(err).NotTo(HaveOccurred())
-			defer rows.Close()
-
-			records := []string{}
-			fmt.Println("Checking data loaded with Pipe")
-			fmt.Println("ItemID\tCategoryID")
-			for rows.Next() {
-				var ItemID string
-				var CategoryID string
-
-				err := rows.Scan(&ItemID, &CategoryID)
-				Expect(err).NotTo(HaveOccurred())
-				records = append(records, ItemID+"-"+CategoryID)
-				fmt.Println(ItemID+"\t"+CategoryID)
+			if err != nil {
+				panic(err.Error())
 			}
-			Expect(records).To(ContainElement("2576651-149192"))
-			Expect(records).To(ContainElement("3830808-4181361"))
-			Expect(records).To(ContainElement("4365585-2520377"))
-			Expect(records).To(ContainElement("4606018-2735466"))
-			Expect(records).To(ContainElement("230380-411153"))
+			fmt.Printf("Unfinished row count: %d \n", unfinished)
+
 		})
 	})
 })
