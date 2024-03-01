@@ -46,7 +46,7 @@ var _ = Describe("Docs", func() {
 			_, err := db.Exec(SQLWithCreds)
 			Expect(err).ToNot(HaveOccurred())
 
-			By("Create Table As Seect (CTAS)")
+			By("Create Table As Select (CTAS)")
 			SQL = SQLFromFile("SQL/loading/cloud/s3/4-ctas-inferred.sql")
 			SQLWithCreds = AddAWSCredentials(SQL)
 			_, err = db.Exec(SQLWithCreds)
