@@ -130,7 +130,7 @@ var _ = Describe("Docs", func() {
 
 			By("Create a pipe")
 			SQL = SQLFromFile("SQL/loading/cloud/gcs/16-create-pipe.sql")
-			SQLWithCreds := AddAWSCredentials(SQL)
+			SQLWithCreds := AddGCSCredentials(SQL)
 			_, err = db.Exec(SQLWithCreds)
 			Expect(err).ToNot(HaveOccurred())
 
