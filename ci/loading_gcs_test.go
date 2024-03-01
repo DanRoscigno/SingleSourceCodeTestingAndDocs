@@ -130,7 +130,7 @@ var _ = Describe("Docs", func() {
 
 			By("Create a pipe")
 			SQL = SQLFromFile("SQL/loading/cloud/gcs/16-create-pipe.sql")
-			SQLWithCreds := AddGCSCredentials(SQL)
+			SQLWithCreds := AddAWSCredentials(SQL)
 			_, err = db.Exec(SQLWithCreds)
 			Expect(err).ToNot(HaveOccurred())
 
@@ -139,20 +139,28 @@ var _ = Describe("Docs", func() {
 			_, err = db.Exec(SQL)
 			Expect(err).ToNot(HaveOccurred())
 
+			By("Describing the table for pipe")
+			SQL = `select COLUMN_NAME, DATA_TYPE from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME = 'user_behavior_from_pipe';`
+			rows, err := db.Query(SQL)
+			Expect(err).NotTo(HaveOccurred())
+			defer rows.Close()
 
-			By("Checking for unfinished file loading from pipe")
-
-			//i := 0
-			var unfinished int
-
-			SQL = `SELECT COUNT(*) from information_schema.pipe_files WHERE PIPE_NAME = 'user_behavior_pipe' AND LOAD_STATE <> 'FINISHED';`
-
-			err = db.QueryRow(SQL).Scan(&unfinished)
-
-			if err != nil {
-				panic(err.Error())
+			fmt.Println("Checking schema created with Pipe")
+			fmt.Println("COLUMN_NAME\tDATA_TYPE")
+			fieldTypes := []string{}
+			for rows.Next() {
+				var COLUMN_NAME string
+				var DATA_TYPE string
+				err := rows.Scan(&COLUMN_NAME, &DATA_TYPE)
+				Expect(err).NotTo(HaveOccurred())
+				fieldTypes = append(fieldTypes, COLUMN_NAME + "-" + DATA_TYPE)
+				fmt.Println(COLUMN_NAME+"\t"+DATA_TYPE)
 			}
-			fmt.Printf("Unfinished row count: %d \n", unfinished)
+			Expect(fieldTypes).To(ContainElement("UserID-int"))
+			Expect(fieldTypes).To(ContainElement("ItemID-int"))
+			Expect(fieldTypes).To(ContainElement("CategoryID-int"))
+			Expect(fieldTypes).To(ContainElement("BehaviorType-varchar"))
+			Expect(fieldTypes).To(ContainElement("Timestamp-datetime"))
 
 		})
 	})
