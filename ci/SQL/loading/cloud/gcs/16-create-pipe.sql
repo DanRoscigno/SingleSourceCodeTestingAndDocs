@@ -7,7 +7,7 @@ AS
 INSERT INTO user_behavior_from_pipe
 SELECT * FROM FILES
 (
-    "path" = "gs://starrocks-samples/user-behavior-10-million-rows/*",
+    "path" = "gs://starrocks-samples/user-behavior-10-million-rows.parquet",
     "format" = "parquet",
     -- highlight-start
     "gcp.gcs.service_account_email" = "sampledatareader@xxxxx-xxxxxx-000000.iam.gserviceaccount.com",
