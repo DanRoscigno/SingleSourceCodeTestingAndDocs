@@ -141,8 +141,10 @@ var _ = Describe("Docs", func() {
 
 
 			By("Checking for unfinished file loading from pipe")
+
 			i := 0
-			unfinshed := 100
+			var unfinished int
+
 			SQL = `SELECT COUNT(*) from information_schema.pipe_files
 			WHERE PIPE_NAME = 'user_behavior_pipe' AND LOAD_STATE <> 'FINISHED';`
 
