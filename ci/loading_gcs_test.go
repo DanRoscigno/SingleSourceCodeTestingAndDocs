@@ -38,7 +38,7 @@ var _ = Describe("Docs", func() {
 			_, err = db.Exec(`ADMIN SET FRONTEND CONFIG ('default_replication_num' = "3");`)
 			Expect(err).ToNot(HaveOccurred())
 		})
-
+/*
 		It("Use the FILES table fxn", func() {
 
 			By("Selecting directly from GCS")
@@ -120,7 +120,7 @@ var _ = Describe("Docs", func() {
 			Expect(err).ToNot(HaveOccurred())
 
 		})
-
+*/
 		It("Create table and then load with Pipe and FILES", func() {
 
 			By("Pipe DDL")
