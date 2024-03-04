@@ -2,6 +2,7 @@ package docs_test
 
 import (
 	"fmt"
+
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )
@@ -60,8 +61,8 @@ var _ = Describe("QuickstartIceberg", func() {
 				var hour_of_day string
 				err := rows.Scan(&trips, &hour_of_day)
 				Expect(err).NotTo(HaveOccurred())
-				records = append(records, trips + "-" + hour_of_day)
-				fmt.Println(trips+"\t"+hour_of_day)
+				records = append(records, trips+"-"+hour_of_day)
+				fmt.Println(trips + "\t" + hour_of_day)
 			}
 			Expect(records).To(ContainElement("5381-18"))
 			Expect(records).To(ContainElement("5253-17"))

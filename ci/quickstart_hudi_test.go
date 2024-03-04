@@ -55,7 +55,7 @@ var _ = Describe("QuickstartHudi", func() {
 				var users string
 				err := rows.Scan(&language, &users)
 				Expect(err).NotTo(HaveOccurred())
-				records = append(records, language + "-" + users)
+				records = append(records, language+"-"+users)
 			}
 			Expect(records).To(ContainElement("Python-100000"))
 			Expect(records).To(ContainElement("Java-20000"))

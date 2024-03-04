@@ -2,6 +2,7 @@ package docs_test
 
 import (
 	"fmt"
+
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )
@@ -51,7 +52,7 @@ var _ = Describe("QuickstartSharedData", func() {
 			_, err := db.Exec(SQL)
 			Expect(err).ToNot(HaveOccurred())
 		})
-		
+
 		It("DDL: Create quickstart tables", func() {
 
 			By("creating the weather data table")
@@ -103,7 +104,7 @@ var _ = Describe("QuickstartSharedData", func() {
 				err := rows.Scan(&Crashes, &Temp_F, &Precipitation, &Hour)
 				Expect(err).NotTo(HaveOccurred())
 				records = append(records, Crashes+"-"+Temp_F+"-"+Precipitation+"-"+Hour)
-				fmt.Println(Crashes+"\t"+Temp_F+"\t"+Precipitation+"\t"+Hour)
+				fmt.Println(Crashes + "\t" + Temp_F + "\t" + Precipitation + "\t" + Hour)
 			}
 			Expect(records).To(ContainElement("192-34-0.09-18 Jan 2015 08:00"))
 			Expect(records).To(ContainElement("138-33.5-0.02-18 Jan 2015 07:00"))

@@ -2,6 +2,7 @@ package docs_test
 
 import (
 	"fmt"
+
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
 )
@@ -67,8 +68,8 @@ var _ = Describe("Docs", func() {
 				var DATA_TYPE string
 				err := rows.Scan(&COLUMN_NAME, &DATA_TYPE)
 				Expect(err).NotTo(HaveOccurred())
-				fieldTypes = append(fieldTypes, COLUMN_NAME + "-" + DATA_TYPE)
-				fmt.Println(COLUMN_NAME+"\t"+DATA_TYPE)
+				fieldTypes = append(fieldTypes, COLUMN_NAME+"-"+DATA_TYPE)
+				fmt.Println(COLUMN_NAME + "\t" + DATA_TYPE)
 			}
 			Expect(fieldTypes).To(ContainElement("UserID-bigint"))
 			Expect(fieldTypes).To(ContainElement("ItemID-bigint"))
@@ -155,8 +156,8 @@ var _ = Describe("Docs", func() {
 				var DATA_TYPE string
 				err := rows.Scan(&COLUMN_NAME, &DATA_TYPE)
 				Expect(err).NotTo(HaveOccurred())
-				fieldTypes = append(fieldTypes, COLUMN_NAME + "-" + DATA_TYPE)
-				fmt.Println(COLUMN_NAME+"\t"+DATA_TYPE)
+				fieldTypes = append(fieldTypes, COLUMN_NAME+"-"+DATA_TYPE)
+				fmt.Println(COLUMN_NAME + "\t" + DATA_TYPE)
 			}
 			Expect(fieldTypes).To(ContainElement("UserID-int"))
 			Expect(fieldTypes).To(ContainElement("ItemID-int"))

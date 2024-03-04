@@ -2,11 +2,11 @@ package docs_test
 
 import (
 	"database/sql"
+	"encoding/base64"
 	"fmt"
 	"os"
 	"os/exec"
 	"strings"
-	"encoding/base64"
 
 	"github.com/go-sql-driver/mysql"
 	. "github.com/onsi/gomega"
