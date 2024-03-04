@@ -127,30 +127,4 @@ Code snippets are imported from the tests using [`docusaurus-theme-github-codebl
 
 ## Running the system
 
-1. Clone this repo
-2. Build the Ginkgo container
-
-```bash
-cd ci
-docker build -f ginkgo.Dockerfile -t ginkgo .
-```
-
-3. Start StarRocks
-
-```bash
-docker compose --profile starrocks up --detach --wait --wait-timeout 60
-```
-
-4. Run the tests
-
-```bash
-docker compose run test-harness
-```
-
-## Add a new test
-
-To test the basic [quickstart](https://docs.starrocks.io/docs/quick_start/shared-nothing/)
-
-```bash
-ginkgo generate quickstart_basic
-```
+See the files in the [`.github/workflows/`](.github/workflows) folder.
